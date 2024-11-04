@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { IonButton, IonCard, IonCardContent, IonCol, IonGrid, IonInput, IonItem, IonLabel, IonRow, IonText, IonToast } from '@ionic/react';
 import PCComponent from '../PCComponent/PCComponent';
+import './PCBuilder.css'
 
 interface Component {
   id: string;
@@ -194,8 +195,11 @@ const PCBuilder: React.FC = () => {
           <IonRow key={component.id} style={{ marginBottom: '10px', alignItems: 'center' }}>
             <IonCol size="auto">
               <IonItem>
-                <IonLabel position="floating">Image link for {component.type}</IonLabel>
+                <IonLabel position="floating"></IonLabel>
                 <IonInput
+                  fill="solid"
+                  labelPlacement="floating"
+                  label={component?.type?.toUpperCase()}
                   value={imageInputs[component.id] || ''}
                   onIonChange={(e) => setImageInputs({ ...imageInputs, [component.id]: e.detail.value! })}
                   style={{ padding: '10px', marginRight: '10px', width: '100%' }}
