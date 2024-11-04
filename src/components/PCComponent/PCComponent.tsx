@@ -20,23 +20,24 @@ const PCComponent: React.FC<ComponentProps> = ({ component, onDragEnd }) => {
   const getSize = (type: string) => {
     switch (type) {
       case 'case':
-        return { width: '100%', height: '100%' };
+        return { width: '100%', height: '100%' }; // Case fills the canvas
       case 'cpu':
-        return { width: '50px', height: '50px' };
+        return { width: '60px', height: '60px' }; // Slightly larger CPU
       case 'gpu':
-        return { width: '150px', height: '30px' };
+        return { width: '400px', height: '250px' }; // Wider GPU
       case 'ram':
-        return { width: '20px', height: '60px' };
+        return { width: '20px', height: '70px' }; // Adjusted RAM size
       case 'motherboard':
-        return { width: '200px', height: '200px' };
+        return { width: '400px', height: '300px' }; // Larger motherboard
       case 'cpuCooler':
-        return { width: '60px', height: '60px' };
+        return { width: '70px', height: '70px' }; // Slightly larger CPU cooler
       case 'psu':
-        return { width: '80px', height: '40px' };
+        return { width: '150px', height: '150px' }; // Wider PSU
       default:
-        return { width: '40px', height: '20px' };
+        return { width: '40px', height: '20px' }; // Default size for unknown types
     }
   };
+  
 
   const handleMouseDown = (e: React.MouseEvent) => {
     setIsDragging(true);
