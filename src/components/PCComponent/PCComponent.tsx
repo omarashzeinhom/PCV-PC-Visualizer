@@ -6,25 +6,39 @@ interface ComponentProps {
     type: string;
     x: number;
     y: number;
-    width: number; // Dynamic width
-    height: number; // Dynamic height
     imageSrc?: string;
-    link?: string; // URL for the component
+    link?: string; // Added optional link
+    specs?: string; // Added optional specs
   };
   onDragEnd: (id: string, x: number, y: number) => void;
-  onResize: (id: string, width: number, height: number) => void;
 }
 
-const PCComponent: React.FC<ComponentProps> = ({ component, onDragEnd, onResize }) => {
-  const { id, type, x, y, imageSrc, link, width, height } = component;
+const PCComponent: React.FC<ComponentProps> = ({ component, onDragEnd }) => {
+  const { id, type, x, y, imageSrc, link, specs } = component; // Destructure link and specs
   const [isDragging, setIsDragging] = useState(false);
   const [position, setPosition] = useState({ x, y });
   const offset = useRef({ x: 0, y: 0 });
 
-  const getSize = () => ({
-    width: `${width}px`,
-    height: `${height}px`,
-  });
+  const getSize = (type: string) => {
+    switch (type) {
+      case 'case':
+        return { width: '100%', height: '100%' }; // Case fills the canvas
+      case 'cpu':
+        return { width: '60px', height: '60px' }; // Slightly larger CPU
+      case 'gpu':
+        return { width: '400px', height: '250px' }; // Wider GPU
+      case 'ram':
+        return { width: '20px', height: '70px' }; // Adjusted RAM size
+      case 'motherboard':
+        return { width: '400px', height: '300px' }; // Larger motherboard
+      case 'cpuCooler':
+        return { width: '70px', height: '70px' }; // Slightly larger CPU cooler
+      case 'psu':
+        return { width: '150px', height: '150px' }; // Wider PSU
+      default:
+        return { width: '40px', height: '20px' }; // Default size for unknown types
+    }
+  };
 
   const handleMouseDown = (e: React.MouseEvent) => {
     setIsDragging(true);
@@ -47,14 +61,6 @@ const PCComponent: React.FC<ComponentProps> = ({ component, onDragEnd, onResize 
     onDragEnd(id, position.x, position.y);
   };
 
-  const handleContextMenu = (e: React.MouseEvent) => {
-    e.preventDefault();
-    const newWidth = prompt('Enter new width (px):', `${width}`) || `${width}`;
-    const newHeight = prompt('Enter new height (px):', `${height}`) || `${height}`;
-    
-    onResize(id, parseInt(newWidth, 10), parseInt(newHeight, 10));
-  };
-
   React.useEffect(() => {
     if (isDragging) {
       window.addEventListener('mousemove', handleMouseMove);
@@ -71,30 +77,38 @@ const PCComponent: React.FC<ComponentProps> = ({ component, onDragEnd, onResize 
   }, [isDragging]);
 
   return (
-    <div
-      style={{
-        position: 'absolute',
-        left: `${position.x}px`,
-        top: `${position.y}px`,
-        ...getSize(),
-        backgroundColor: imageSrc ? 'transparent' : 'lightgray',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        overflow: 'hidden',
-        zIndex: type === 'case' ? 0 : 1,
-        cursor: isDragging ? 'grabbing' : 'grab',
-      }}
-      onMouseDown={handleMouseDown}
-      onContextMenu={handleContextMenu} // Enable right-click menu
-    >
-      {link ? (
-        <a href={link} target="_blank" rel="noopener noreferrer">
+    <div>
+      <div
+        style={{
+          position: 'absolute',
+          left: `${position.x}px`,
+          top: `${position.y}px`,
+          ...getSize(type),
+          backgroundColor: imageSrc ? 'transparent' : 'lightgray',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          overflow: 'hidden',
+          zIndex: type === 'case' ? 0 : 1,
+          cursor: isDragging ? 'grabbing' : 'grab',
+        }}
+        onMouseDown={handleMouseDown}
+      >
+        {imageSrc ? (
           <img src={imageSrc} alt={type} style={{ width: '100%', height: '100%' }} />
-        </a>
-      ) : (
-        type.toUpperCase()
-      )}
+        ) : (
+          type.toUpperCase()
+        )}
+      </div>
+      {/* Specifications and Link Below */}
+      <div style={{ marginTop: '10px', textAlign: 'center' }}>
+        {specs && <div style={{ fontSize: '12px' }}>{specs}</div>}
+        {link && (
+          <a href={link} target="_blank" rel="noopener noreferrer" style={{ fontSize: '12px', color: 'blue' }}>
+            View Product
+          </a>
+        )}
+      </div>
     </div>
   );
 };
