@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { IonButton, IonToast } from '@ionic/react';
 import PCComponent from '../PCComponent/PCComponent';
 
@@ -98,9 +98,7 @@ const demoComponents: Component[] = [
 
 const PCBuilder: React.FC = () => {
   const [components, setComponents] = useState<Component[]>([]);
-  const [showToast, setShowToast] = useState(false);
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
-
+  const [showToast, setShowToast] = useState(false); // State for toast notification
   const addComponent = (component: Component) => {
     setComponents((prev) => [...prev, component]);
   };
@@ -112,10 +110,9 @@ const PCBuilder: React.FC = () => {
       )
     );
   };
-
   const exportSpecs = () => {
     if (components.length === 0) {
-      setShowToast(true);
+      setShowToast(true); // Show toast if no components
       return;
     }
 
@@ -136,51 +133,17 @@ const PCBuilder: React.FC = () => {
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+    URL.revokeObjectURL(url); // Clean up the URL object
   };
-
-  const exportImage = () => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-
-    const context = canvas.getContext('2d');
-    if (!context) return;
-
-    // Set canvas size based on the container size
-    canvas.width = 800;
-    canvas.height = 600;
-
-    // Clear the canvas
-    context.clearRect(0, 0, canvas.width, canvas.height);
-
-    // Draw each component on the canvas
-    components.forEach(({ x, y, width, height, imageSrc }) => {
-      const img = new Image();
-      img.src = imageSrc || ''; // Use a placeholder image if imageSrc is not available
-      img.onload = () => {
-        context.drawImage(img, x, y, width, height);
-      };
-    });
-
-    // Allow for a slight delay for all images to load before exporting
-    setTimeout(() => {
-      const dataURL = canvas.toDataURL('image/png');
-      const a = document.createElement('a');
-      a.href = dataURL;
-      a.download = 'pc_build.png';
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-    }, 1000);
-  };
-
   return (
     <div>
+
+
       <div
         style={{
           position: 'relative',
-          width: '800px',
-          height: '600px',
+          width: '800px', // Increased width
+          height: '600px', // Increased height
           border: '1px solid black',
           marginTop: '20px',
           overflow: 'hidden',
@@ -207,19 +170,12 @@ const PCBuilder: React.FC = () => {
         Export Specs
       </IonButton>
 
-      <IonButton onClick={exportImage} style={{ marginTop: '20px' }}>
-        Export Image
-      </IonButton>
-
       <IonToast
         isOpen={showToast}
         onDidDismiss={() => setShowToast(false)}
         message="No PC components added! Please add components before exporting."
         duration={2000}
       />
-
-      {/* Canvas for exporting the image */}
-      <canvas ref={canvasRef} style={{ display: 'none' }} />
     </div>
   );
 };
