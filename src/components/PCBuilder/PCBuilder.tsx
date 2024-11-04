@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { IonButton, IonCard, IonCardContent, IonCol, IonGrid, IonInput, IonItem, IonLabel, IonRow, IonText, IonToast } from '@ionic/react';
+import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCol, IonGrid, IonHeader, IonInput, IonItem, IonLabel, IonRow, IonText, IonToast } from '@ionic/react';
 import PCComponent from '../PCComponent/PCComponent';
-import './PCBuilder.css'
-
-import {  demoComponents,Component} from "../../constants/demoproducts";
-
-// Demo components with initial positions, links, and specs
+import './PCBuilder.css';
+import { demoComponents, Component } from "../../constants/demoproducts";
 
 const PCBuilder: React.FC = () => {
   const [components, setComponents] = useState<Component[]>(() => {
@@ -41,10 +38,18 @@ const PCBuilder: React.FC = () => {
     );
   };
 
-  const handleDragEnd = (id: string, x: number, y: number) => {
+  const handleDragEnd = (id: string, x: number, y: number, width: number, height: number) => {
     setComponents((prev) =>
       prev.map((component) =>
-        component.id === id ? { ...component, x, y } : component
+        component.id === id ? { ...component, x, y, width, height } : component
+      )
+    );
+  };
+
+  const handleResizeEnd = (id: string, width: number, height: number) => {
+    setComponents((prev) =>
+      prev.map((component) =>
+        component.id === id ? { ...component, width, height } : component
       )
     );
   };
@@ -73,36 +78,49 @@ const PCBuilder: React.FC = () => {
     URL.revokeObjectURL(url);
   };
 
-
+  const resetCache = () => {
+    localStorage.clear(); // Clears all items in localStorage
+    console.log('Cache has been reset.');
+  };
+  
   return (
     <div>
       <div
         id="screenshot-area"
         style={{
-          position: 'relative',
-          width: '100%',
           height: '600px',
-          border: '1px solid black',
-          marginTop: '20px',
-          overflow: 'hidden',
+          position: 'relative',
         }}
       >
         {components.map((component) => (
           <PCComponent
             key={component.id}
-            component={component}
+            component={{
+              ...component,
+              width: component.width * (window.innerWidth < 768 ? 0.8 : 1), // Adjust width based on viewport size
+              height: component.height * (window.innerWidth < 768 ? 0.8 : 1), // Adjust height based on viewport size
+            }}
             onDragEnd={handleDragEnd}
+            onResizeEnd={handleResizeEnd} // Add the resize handler
           />
         ))}
       </div>
       <IonGrid style={{ marginTop: '20px' }}>
-        <IonText color="warning" style={{ fontSize: '12px' }}>
-          Note: The PC specs are not checked for compatibility; this design is purely for visual representation using images.
-        </IonText>
-        <hr />
-        <IonText color="primary" style={{ fontSize: '12px' }}>
-          Note: Add Side View of Each Component to get the best results
-        </IonText>
+        <IonCard>
+          <IonCardHeader>
+            <IonText color="warning" style={{ fontSize: '12px' }}>
+              Note: The PC specs are not checked for compatibility; this design is purely for visual representation using images.
+            </IonText>
+          </IonCardHeader>
+          <IonCardContent>
+            <IonText color="primary" style={{ fontSize: '12px' }}>
+              Note: Add Side View of Each Component to get the best results
+            </IonText>
+          </IonCardContent>
+          <IonCardSubtitle>
+            <IonButton onClick={resetCache}>Reset</IonButton>
+          </IonCardSubtitle>
+        </IonCard>
         {demoComponents.map((component) => (
           <IonRow key={component.id} style={{ marginBottom: '10px', alignItems: 'center' }}>
             <IonCol size="auto">
@@ -120,7 +138,6 @@ const PCBuilder: React.FC = () => {
               </IonItem>
             </IonCol>
             <IonCol size="auto">
-
               <IonButton onClick={() => addComponent(component)}>
                 Add {component.type.toUpperCase()}
               </IonButton>
@@ -142,20 +159,15 @@ const PCBuilder: React.FC = () => {
                       </IonLabel>
                     </IonItem>
                   )}
-
                 </IonCardContent>
               </IonCard>
             </IonCol>
-
           </IonRow>
         ))}
-
       </IonGrid>
-
       <IonButton onClick={exportSpecs} style={{ marginTop: '20px' }}>
         Export Specs
       </IonButton>
-
       <IonToast
         isOpen={showToast}
         onDidDismiss={() => setShowToast(false)}

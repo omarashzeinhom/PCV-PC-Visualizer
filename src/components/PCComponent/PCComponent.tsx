@@ -13,13 +13,14 @@ interface ComponentProps {
         specs?: string; // Optional specs
     };
     onDragEnd: (id: string, x: number, y: number, width: number, height: number) => void; // Updated signature
+    onResizeEnd: (id: string, width: number, height: number) => void;
 }
 
-const PCComponent: React.FC<ComponentProps> = ({ component, onDragEnd }) => {
-    const { id, type, x, y, imageSrc, link, specs, width, height } = component;
+const PCComponent: React.FC<ComponentProps> = ({ component, onDragEnd, onResizeEnd }) => {
+    const { id, type, x, y, imageSrc, width, height } = component;
     const [isDragging, setIsDragging] = useState(false);
     const [isResizing, setIsResizing] = useState(false);
-    const [isOutlineVisible, setIsOutlineVisible] = useState(false); // Track outline visibility
+    const [isOutlineVisible, setIsOutlineVisible] = useState(false);
     const [position, setPosition] = useState({ x, y });
     const [size, setSize] = useState({ width, height });
     const offset = useRef({ x: 0, y: 0 });
@@ -32,8 +33,9 @@ const PCComponent: React.FC<ComponentProps> = ({ component, onDragEnd }) => {
         };
     };
 
+    // Mouse event handlers
     const handleMouseDown = (e: React.MouseEvent) => {
-        if (e.target === resizeRef.current) return; // Prevent dragging when clicking the resize handle
+        if (e.target === resizeRef.current) return;
         setIsDragging(true);
         offset.current = {
             x: e.clientX - position.x,
@@ -47,51 +49,93 @@ const PCComponent: React.FC<ComponentProps> = ({ component, onDragEnd }) => {
             const newY = e.clientY - offset.current.y;
             setPosition({ x: newX, y: newY });
         } else if (isResizing) {
-            const newWidth = e.clientX - position.x; // Resize width based on mouse position
-            const newHeight = e.clientY - position.y; // Resize height based on mouse position
-            setSize({ width: newWidth < 50 ? 50 : newWidth, height: newHeight < 50 ? 50 : newHeight }); // Minimum size
+            const newWidth = e.clientX - position.x;
+            const newHeight = e.clientY - position.y;
+            setSize({ width: Math.max(50, newWidth), height: Math.max(50, newHeight) });
         }
     };
 
     const handleMouseUp = () => {
         if (isDragging) {
             setIsDragging(false);
-            onDragEnd(id, position.x, position.y, size.width, size.height); // Pass size
+            onDragEnd(id, position.x, position.y, size.width, size.height);
         } else if (isResizing) {
             setIsResizing(false);
-            onDragEnd(id, position.x, position.y, size.width, size.height); // Pass size
+            onResizeEnd(id, size.width, size.height);
         }
     };
 
+    // Resize handle for mouse
     const handleResizeMouseDown = (e: React.MouseEvent) => {
         setIsResizing(true);
-        e.stopPropagation(); // Prevent triggering mouse down on the component
+        e.stopPropagation();
+    };
+
+    // Touch event handlers
+    const handleTouchStart = (e: React.TouchEvent) => {
+        if (e.target === resizeRef.current) return;
+        setIsDragging(true);
+        const touch = e.touches[0];
+        offset.current = {
+            x: touch.clientX - position.x,
+            y: touch.clientY - position.y,
+        };
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+        if (isDragging) {
+            const touch = e.touches[0];
+            const newX = touch.clientX - offset.current.x;
+            const newY = touch.clientY - offset.current.y;
+            setPosition({ x: newX, y: newY });
+        } else if (isResizing) {
+            const touch = e.touches[0];
+            const newWidth = touch.clientX - position.x;
+            const newHeight = touch.clientY - position.y;
+            setSize({ width: Math.max(50, newWidth), height: Math.max(50, newHeight) });
+        }
+    };
+
+    const handleTouchEnd = () => {
+        if (isDragging) {
+            setIsDragging(false);
+            onDragEnd(id, position.x, position.y, size.width, size.height);
+        } else if (isResizing) {
+            setIsResizing(false);
+            onResizeEnd(id, size.width, size.height);
+        }
     };
 
     const handleRightClick = (e: React.MouseEvent) => {
-        e.preventDefault(); // Prevent the default context menu from appearing
-        setIsOutlineVisible(!isOutlineVisible); // Toggle outline visibility
+        e.preventDefault();
+        setIsOutlineVisible(!isOutlineVisible);
     };
 
     React.useEffect(() => {
         if (isDragging || isResizing) {
             window.addEventListener('mousemove', handleMouseMove);
             window.addEventListener('mouseup', handleMouseUp);
+            window.addEventListener('touchmove', handleTouchMove);
+            window.addEventListener('touchend', handleTouchEnd);
         } else {
             window.removeEventListener('mousemove', handleMouseMove);
             window.removeEventListener('mouseup', handleMouseUp);
+            window.removeEventListener('touchmove', handleTouchMove);
+            window.removeEventListener('touchend', handleTouchEnd);
         }
 
         return () => {
             window.removeEventListener('mousemove', handleMouseMove);
             window.removeEventListener('mouseup', handleMouseUp);
+            window.removeEventListener('touchmove', handleTouchMove);
+            window.removeEventListener('touchend', handleTouchEnd);
         };
     }, [isDragging, isResizing]);
 
     return (
         <div>
             <div
-                onContextMenu={handleRightClick} // Use right-click to toggle outline
+                onContextMenu={handleRightClick}
                 style={{
                     position: 'absolute',
                     left: `${position.x}px`,
@@ -104,16 +148,17 @@ const PCComponent: React.FC<ComponentProps> = ({ component, onDragEnd }) => {
                     overflow: 'hidden',
                     zIndex: type === 'case' ? 0 : 1,
                     cursor: isDragging ? 'grabbing' : 'grab',
-                    border: isOutlineVisible ? '2px dashed red' : 'none', // Outline when visible
+                    border: isOutlineVisible ? '2px dashed red' : 'none',
                 }}
                 onMouseDown={handleMouseDown}
+                onTouchStart={handleTouchStart}
             >
                 {imageSrc ? (
                     <img src={imageSrc} alt={type} style={{ width: '100%', height: '100%' }} />
                 ) : (
                     type.toUpperCase()
                 )}
-                {isOutlineVisible && ( // Only show the resize handle when outline is visible
+                {isOutlineVisible && (
                     <div
                         ref={resizeRef}
                         onMouseDown={handleResizeMouseDown}
@@ -129,7 +174,6 @@ const PCComponent: React.FC<ComponentProps> = ({ component, onDragEnd }) => {
                     />
                 )}
             </div>
-       
         </div>
     );
 };

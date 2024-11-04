@@ -42,7 +42,7 @@ export const demoComponents: Component[] = [
         y: 70,
         width: 60, // Width in pixels for the CPU
         height: 60, // Height in pixels for the CPU
-        imageSrc: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcREl1Eo0G8H1qNohHzLixixRxmE8qoCUIVHeQ&s',
+        imageSrc: 'https://res.cloudinary.com/dmbzzkneb/image/upload/v1730738410/PCV-Demo-Products/CPU-7900X-removebg-preview_dyojog.png',
         specs: 'AMD Ryzen 9 7900X, 12 Cores, 24 Threads',
         link: 'https://example.com/cpu' // Add the actual link here
 
@@ -54,8 +54,8 @@ export const demoComponents: Component[] = [
         y: 100,
         width: 20, // Width in pixels for the RAM
         height: 70, // Height in pixels for the RAM
-        imageSrc: 'https://via.placeholder.com/20x70',
-        specs: '16GB DDR4 RAM',
+        imageSrc: 'https://res.cloudinary.com/dmbzzkneb/image/upload/f_auto,q_auto/v1/PCV-Demo-Products/detailed_zjnkz5',
+        specs: '16GB DDR5 RAM',
         link: 'https://example.com/ram' // Add the actual link here
     },
     {
@@ -65,8 +65,8 @@ export const demoComponents: Component[] = [
         y: 200,
         width: 400, // Width in pixels for the GPU
         height: 250, // Height in pixels for the GPU
-        imageSrc: 'https://dlcdnwebimgs.asus.com/gain/D82691F5-CD33-4C21-895A-EA327CD3F8A3/w1000/h732',
-        specs: 'NVIDIA GeForce RTX 4080, 16GB GDDR6X',
+        imageSrc: 'https://dlcdnwebimgs.asus.com/gain/c276d87e-1bf3-4428-8c3c-68f29325debe/w800/fwebp',
+        specs: 'Asus X Noctua NVIDIA GeForce RTX 4080, 16GB GDDR6X',
         link: 'https://example.com/gpu' // Add the actual link here
     },
     {
@@ -98,7 +98,7 @@ export const demoComponents: Component[] = [
         y: 250,
         width: 150, // Width in pixels for the PSU
         height: 150, // Height in pixels for the PSU
-        imageSrc: 'https://lian-li.com/wp-content/uploads/2020/11/UNI-FAN-white-rgbx1-front.jpg',
+        imageSrc: 'https://res.cloudinary.com/dmbzzkneb/image/upload/v1730738950/PCV-Demo-Products/UNI-FAN-white-rgbx1-front-removebg-preview_rz4sup.png',
         specs: '120mm LIAN LI UNI Fan',
         link: 'https://example.com/psu' // Add the actual link here
     },
