@@ -16,13 +16,14 @@ interface ComponentProps {
 }
 
 const PCComponent: React.FC<ComponentProps> = ({ component, onDragEnd }) => {
-  const { id, type, x, y, imageSrc, link, specs, width, height } = component; // Destructure width and height
+  const { id, type, x, y, imageSrc, link, specs, width, height } = component;
   const [isDragging, setIsDragging] = useState(false);
   const [isResizing, setIsResizing] = useState(false);
+  const [isOutlineVisible, setIsOutlineVisible] = useState(false); // Track outline visibility
   const [position, setPosition] = useState({ x, y });
   const [size, setSize] = useState({ width, height });
   const offset = useRef({ x: 0, y: 0 });
-  const resizeRef = useRef<HTMLDivElement | null>(null); // Reference to resize handle
+  const resizeRef = useRef<HTMLDivElement | null>(null);
 
   const getSize = () => {
     return {
@@ -67,6 +68,11 @@ const PCComponent: React.FC<ComponentProps> = ({ component, onDragEnd }) => {
     e.stopPropagation(); // Prevent triggering mouse down on the component
   };
 
+  const handleRightClick = (e: React.MouseEvent) => {
+    e.preventDefault(); // Prevent the default context menu from appearing
+    setIsOutlineVisible(!isOutlineVisible); // Toggle outline visibility
+  };
+
   React.useEffect(() => {
     if (isDragging || isResizing) {
       window.addEventListener('mousemove', handleMouseMove);
@@ -85,6 +91,7 @@ const PCComponent: React.FC<ComponentProps> = ({ component, onDragEnd }) => {
   return (
     <div>
       <div
+        onContextMenu={handleRightClick} // Use right-click to toggle outline
         style={{
           position: 'absolute',
           left: `${position.x}px`,
@@ -97,7 +104,7 @@ const PCComponent: React.FC<ComponentProps> = ({ component, onDragEnd }) => {
           overflow: 'hidden',
           zIndex: type === 'case' ? 0 : 1,
           cursor: isDragging ? 'grabbing' : 'grab',
-          border: '1px solid #000', // Add a border for visibility
+          border: isOutlineVisible ? '2px dashed red' : 'none', // Outline when visible
         }}
         onMouseDown={handleMouseDown}
       >
@@ -107,19 +114,21 @@ const PCComponent: React.FC<ComponentProps> = ({ component, onDragEnd }) => {
           type.toUpperCase()
         )}
         {/* Resize handle */}
-        <div
-          ref={resizeRef}
-          onMouseDown={handleResizeMouseDown}
-          style={{
-            position: 'absolute',
-            right: 0,
-            bottom: 0,
-            width: '10px',
-            height: '10px',
-            backgroundColor: 'blue',
-            cursor: 'nwse-resize', // Cursor indicates resizing
-          }}
-        />
+        {isOutlineVisible && ( // Only show the resize handle when outline is visible
+          <div
+            ref={resizeRef}
+            onMouseDown={handleResizeMouseDown}
+            style={{
+              position: 'absolute',
+              right: 0,
+              bottom: 0,
+              width: '10px',
+              height: '10px',
+              backgroundColor: 'blue',
+              cursor: 'nwse-resize',
+            }}
+          />
+        )}
       </div>
       {/* Specifications and Link Below */}
       <div style={{ marginTop: '10px', textAlign: 'center' }}>
