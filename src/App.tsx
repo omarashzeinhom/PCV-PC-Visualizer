@@ -11,10 +11,9 @@ import {
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import { ellipse, square, triangle } from 'ionicons/icons';
-import Tab1 from './pages/PCbuilder';
 import Tab2 from './pages/Tab2';
 import Tab3 from './pages/Tab3';
-
+import { ComponentProvider } from './context/ComponentContext'; // Adjust the path as needed
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
 
@@ -49,6 +48,7 @@ import PCBuilder from './pages/PCbuilder';
 setupIonicReact();
 
 const App: React.FC = () => (
+  <ComponentProvider>
   <IonApp>
     <IonReactRouter>
       <IonTabs>
@@ -83,6 +83,7 @@ const App: React.FC = () => (
       </IonTabs>
     </IonReactRouter>
   </IonApp>
+  </ComponentProvider>
 );
 
 export default App;
