@@ -10,7 +10,7 @@ interface Component {
   imageSrc?: string;
 }
 
-// Demo object array with image sources and dimensions
+// Demo components with initial positions
 const demoComponents: Component[] = [
   { id: '1', type: 'case', x: 0, y: 0, imageSrc: 'https://dlcdnwebimgs.asus.com/gain/6E502B0B-FDBD-4147-A431-A98ACE2A32EE/w1000/h732' },
   { id: '2', type: 'cpu', x: 150, y: 100, imageSrc: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcREl1Eo0G8H1qNohHzLixixRxmE8qoCUIVHeQ&s' },
@@ -26,6 +26,14 @@ const PCBuilder: React.FC = () => {
 
   const addComponent = (component: Component) => {
     setComponents((prev) => [...prev, component]);
+  };
+
+  const handleDragEnd = (id: string, x: number, y: number) => {
+    setComponents((prev) =>
+      prev.map((component) =>
+        component.id === id ? { ...component, x, y } : component
+      )
+    );
   };
 
   return (
@@ -49,7 +57,11 @@ const PCBuilder: React.FC = () => {
         }}
       >
         {components.map((component) => (
-          <PCComponent key={component.id} component={component} />
+          <PCComponent
+            key={component.id}
+            component={component}
+            onDragEnd={handleDragEnd}
+          />
         ))}
       </div>
     </div>
