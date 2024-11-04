@@ -1,3 +1,4 @@
+import { IonCard, IonCardContent, IonItem, IonLabel, IonText, IonToast } from '@ionic/react';
 import React, { useState, useRef } from 'react';
 
 interface ComponentProps {
@@ -113,7 +114,6 @@ const PCComponent: React.FC<ComponentProps> = ({ component, onDragEnd }) => {
                 ) : (
                     type.toUpperCase()
                 )}
-                {/* Resize handle */}
                 {isOutlineVisible && ( // Only show the resize handle when outline is visible
                     <div
                         ref={resizeRef}
@@ -130,16 +130,7 @@ const PCComponent: React.FC<ComponentProps> = ({ component, onDragEnd }) => {
                     />
                 )}
             </div>
-            {/* Specifications and Link Below */}
-            <hr />
-            <div style={{ marginTop: '10px', textAlign: 'center' }}>
-                {specs && <div style={{ fontSize: '12px' }}>{specs}</div>}
-                {link && (
-                    <a href={link} target="_blank" rel="noopener noreferrer" style={{ fontSize: '12px', color: 'blue' }}>
-                        View Product
-                    </a>
-                )}
-            </div>
+       
         </div>
     );
 };

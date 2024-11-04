@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { IonButton, IonToast } from '@ionic/react';
+import { IonButton, IonCard, IonCardContent, IonCol, IonGrid, IonInput, IonItem, IonLabel, IonRow, IonText, IonToast } from '@ionic/react';
 import PCComponent from '../PCComponent/PCComponent';
 
 interface Component {
@@ -29,6 +29,17 @@ const demoComponents: Component[] = [
   },
   {
     id: '2',
+    type: 'motherboard',
+    x: 60,
+    y: 130,
+    width: 400, // Width in pixels for the motherboard
+    height: 300, // Height in pixels for the motherboard
+    imageSrc: 'https://dlcdnwebimgs.asus.com/gain/18EA4132-C4D3-4317-8C5C-49E2E717E19D/w1000/h732',
+    specs: 'ASUS X870 Motherboard, ATX',
+    link: 'https://example.com/motherboard' // Add the actual link here
+  },
+  {
+    id: '3',
     type: 'cpu',
     x: 170,
     y: 70,
@@ -37,17 +48,7 @@ const demoComponents: Component[] = [
     imageSrc: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcREl1Eo0G8H1qNohHzLixixRxmE8qoCUIVHeQ&s',
     specs: 'AMD Ryzen 9 7900X, 12 Cores, 24 Threads',
     link: 'https://example.com/cpu' // Add the actual link here
-  },
-  {
-    id: '3',
-    type: 'gpu',
-    x: 170,
-    y: 200,
-    width: 400, // Width in pixels for the GPU
-    height: 250, // Height in pixels for the GPU
-    imageSrc: 'https://dlcdnwebimgs.asus.com/gain/D82691F5-CD33-4C21-895A-EA327CD3F8A3/w1000/h732',
-    specs: 'NVIDIA GeForce RTX 4080, 16GB GDDR6X',
-    link: 'https://example.com/gpu' // Add the actual link here
+
   },
   {
     id: '4',
@@ -62,14 +63,14 @@ const demoComponents: Component[] = [
   },
   {
     id: '5',
-    type: 'motherboard',
-    x: 60,
-    y: 130,
-    width: 400, // Width in pixels for the motherboard
-    height: 300, // Height in pixels for the motherboard
-    imageSrc: 'https://dlcdnwebimgs.asus.com/gain/18EA4132-C4D3-4317-8C5C-49E2E717E19D/w1000/h732',
-    specs: 'ASUS X870 Motherboard, ATX',
-    link: 'https://example.com/motherboard' // Add the actual link here
+    type: 'gpu',
+    x: 170,
+    y: 200,
+    width: 400, // Width in pixels for the GPU
+    height: 250, // Height in pixels for the GPU
+    imageSrc: 'https://dlcdnwebimgs.asus.com/gain/D82691F5-CD33-4C21-895A-EA327CD3F8A3/w1000/h732',
+    specs: 'NVIDIA GeForce RTX 4080, 16GB GDDR6X',
+    link: 'https://example.com/gpu' // Add the actual link here
   },
   {
     id: '6',
@@ -90,36 +91,37 @@ const demoComponents: Component[] = [
     width: 150, // Width in pixels for the PSU
     height: 150, // Height in pixels for the PSU
     imageSrc: 'https://dlcdnwebimgs.asus.com/gain/D97D3CD2-5BAE-4B84-A7AD-C5DDD23AF015/w1000/h732',
-    specs: '750W 80 Plus Gold PSU',
+    specs: '1000W Aura ROG Strix White PSU',
+    link: 'https://example.com/psu' // Add the actual link here
+  },
+  {
+    id: '8',
+    type: 'casefans',
+    x: 80,
+    y: 250,
+    width: 150, // Width in pixels for the PSU
+    height: 150, // Height in pixels for the PSU
+    imageSrc: 'https://lian-li.com/wp-content/uploads/2020/11/UNI-FAN-white-rgbx1-front.jpg',
+    specs: '120mm LIAN LI UNI Fan',
     link: 'https://example.com/psu' // Add the actual link here
   },
 ];
 
 const PCBuilder: React.FC = () => {
   const [components, setComponents] = useState<Component[]>([]);
-  const [showToast, setShowToast] = useState(false); // State for toast notification
-  const [imageInputs, setImageInputs] = useState<{ [key: string]: string }>({}); // State for image inputs
+  const [showToast, setShowToast] = useState(false);
+  const [imageInputs, setImageInputs] = useState<{ [key: string]: string }>({});
 
   const addComponent = (component: Component) => {
-    const imageSrc = imageInputs[component.id] || component.imageSrc; // Use user input or fallback to demo image
+    const imageSrc = imageInputs[component.id] || component.imageSrc;
+    const newComponent: Component = { ...component, imageSrc };
 
-    // Create a new component object
-    const newComponent: Component = {
-      ...component,
-      imageSrc, // Set the image source
-    };
-
-    // Check if the component already exists
     const existingComponent = components.find(c => c.id === component.id);
     if (existingComponent) {
-      // If component already exists, allow editing
       editComponent(existingComponent.id, newComponent);
     } else {
-      // Otherwise, add the new component
       setComponents((prev) => [...prev, newComponent]);
     }
-
-    // Clear the input field for the added component
     setImageInputs((prev) => ({ ...prev, [component.id]: '' }));
   };
 
@@ -141,10 +143,9 @@ const PCBuilder: React.FC = () => {
 
   const exportSpecs = () => {
     if (components.length === 0) {
-      setShowToast(true); // Show toast if no components
+      setShowToast(true);
       return;
     }
-
     const specs = components.map(({ id, type, specs }) => ({
       id,
       type,
@@ -155,14 +156,13 @@ const PCBuilder: React.FC = () => {
       type: 'application/json',
     });
     const url = URL.createObjectURL(blob);
-
     const a = document.createElement('a');
     a.href = url;
     a.download = 'pc_components_specs.json';
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
-    URL.revokeObjectURL(url); // Clean up the URL object
+    URL.revokeObjectURL(url);
   };
 
   return (
@@ -186,22 +186,55 @@ const PCBuilder: React.FC = () => {
         ))}
       </div>
 
-      <div>
+      <IonGrid style={{ marginTop: '20px' }}>
+        <IonText color="warning" style={{ fontSize: '12px' }}>
+          Note: The PC specs are not checked for compatibility; this design is purely for visual representation using images.
+        </IonText>
         {demoComponents.map((component) => (
-          <div key={component.id} style={{ marginBottom: '10px' }}>
-            <input
-              type="text"
-              placeholder={`Image link for ${component.type}`}
-              value={imageInputs[component.id] || ''}
-              onChange={(e) => setImageInputs({ ...imageInputs, [component.id]: e.target.value })}
-              style={{ marginRight: '10px' }}
-            />
-            <IonButton onClick={() => addComponent(component)}>
-              Add {component.type.toUpperCase()}
-            </IonButton>
-          </div>
+          <IonRow key={component.id} style={{ marginBottom: '10px', alignItems: 'center' }}>
+            <IonCol size="auto">
+              <IonItem>
+                <IonLabel position="floating">Image link for {component.type}</IonLabel>
+                <IonInput
+                  value={imageInputs[component.id] || ''}
+                  onIonChange={(e) => setImageInputs({ ...imageInputs, [component.id]: e.detail.value! })}
+                  style={{ padding: '10px', marginRight: '10px', width: '100%' }}
+                  placeholder={`Enter image link`}
+                />
+              </IonItem>
+            </IonCol>
+            <IonCol size="auto">
+
+              <IonButton onClick={() => addComponent(component)}>
+                Add {component.type.toUpperCase()}
+              </IonButton>
+            </IonCol>
+            <IonCol>
+              <IonCard style={{ margin: 0, padding: '5px', textAlign: 'center' }}>
+                <IonCardContent>
+                  {component.specs && (
+                    <IonText style={{ fontSize: '12px' }}>{component.specs}</IonText>
+                  )}
+                  {component.link && (
+                    <IonItem lines="none" style={{ padding: 0 }}>
+                      <IonLabel>
+                        <IonText color="primary" style={{ fontSize: '12px' }}>
+                          <a href={component.link} target="_blank" rel="noopener noreferrer">
+                            View Product
+                          </a>
+                        </IonText>
+                      </IonLabel>
+                    </IonItem>
+                  )}
+
+                </IonCardContent>
+              </IonCard>
+            </IonCol>
+
+          </IonRow>
         ))}
-      </div>
+
+      </IonGrid>
 
       <IonButton onClick={exportSpecs} style={{ marginTop: '20px' }}>
         Export Specs
