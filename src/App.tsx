@@ -12,7 +12,7 @@ import {
 import { IonReactRouter } from '@ionic/react-router';
 import { ellipse, square, triangle } from 'ionicons/icons';
 import Tab2 from './pages/Tab2';
-import Tab3 from './pages/Tab3';
+import Legal from './pages/Legal';
 import { ComponentProvider } from './context/ComponentContext'; // Adjust the path as needed
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -59,8 +59,8 @@ const App: React.FC = () => (
           <Route exact path="/tab2">
             <Tab2 />
           </Route>
-          <Route path="/tab3">
-            <Tab3 />
+          <Route path="/legal">
+            <Legal  />
           </Route>
           <Route exact path="/">
             <Redirect to="/pcbuilder" />
@@ -75,9 +75,9 @@ const App: React.FC = () => (
             <IonIcon aria-hidden="true" icon={ellipse} />
             <IonLabel>Builds</IonLabel>
           </IonTabButton>
-          <IonTabButton tab="tab3" href="/tab3">
+          <IonTabButton tab="legal" href="/legal">
             <IonIcon aria-hidden="true" icon={square} />
-            <IonLabel>Share</IonLabel>
+            <IonLabel>Legal</IonLabel>
           </IonTabButton>
         </IonTabBar>
       </IonTabs>

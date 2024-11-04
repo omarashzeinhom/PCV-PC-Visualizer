@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { IonButton, IonCard, IonCardContent, IonCol, IonGrid, IonInput, IonItem, IonLabel, IonRow, IonText, IonToast } from '@ionic/react';
 import PCComponent from '../PCComponent/PCComponent';
 import './PCBuilder.css'
@@ -80,9 +80,9 @@ const demoComponents: Component[] = [
     y: 50,
     width: 70, // Width in pixels for the CPU cooler
     height: 70, // Height in pixels for the CPU cooler
-    imageSrc: 'https://res.cloudinary.com/dmbzzkneb/image/upload/v1730723487/3105984_lian-li-galahad-ii-lcd-argb-36cm-fekete-removebg-preview_1_es9f39.png',
-    specs: 'GA II LCD',
-    link: 'https://example.com/cpuCooler' // Add the actual link here
+    imageSrc: 'https://a.storyblok.com/f/281110/1500x1500/b7e4b15986/hyper-622-halo-white-01-gallery-03.png/m/960x0/smart',
+    specs: 'Hyper 622 Halo White',
+    link: 'https://www.coolermaster.com/en-global/products/hyper-622-halo-white/' // Add the actual link here
   },
   {
     id: '7',
@@ -109,9 +109,17 @@ const demoComponents: Component[] = [
 ];
 
 const PCBuilder: React.FC = () => {
-  const [components, setComponents] = useState<Component[]>([]);
+  const [components, setComponents] = useState<Component[]>(() => {
+    const savedComponents = localStorage.getItem('pcComponents');
+    return savedComponents ? JSON.parse(savedComponents) : [];
+  });
+
   const [showToast, setShowToast] = useState(false);
   const [imageInputs, setImageInputs] = useState<{ [key: string]: string }>({});
+
+  useEffect(() => {
+    localStorage.setItem('pcComponents', JSON.stringify(components));
+  }, [components]);
 
   const addComponent = (component: Component) => {
     const imageSrc = imageInputs[component.id] || component.imageSrc;
@@ -166,12 +174,14 @@ const PCBuilder: React.FC = () => {
     URL.revokeObjectURL(url);
   };
 
+
   return (
     <div>
       <div
+        id="screenshot-area"
         style={{
           position: 'relative',
-          width: '800px',
+          width: '100%',
           height: '600px',
           border: '1px solid black',
           marginTop: '20px',
@@ -186,10 +196,13 @@ const PCBuilder: React.FC = () => {
           />
         ))}
       </div>
-
       <IonGrid style={{ marginTop: '20px' }}>
         <IonText color="warning" style={{ fontSize: '12px' }}>
           Note: The PC specs are not checked for compatibility; this design is purely for visual representation using images.
+        </IonText>
+        <hr />
+        <IonText color="primary" style={{ fontSize: '12px' }}>
+          Note: Add Side View of Each Component to get the best results
         </IonText>
         {demoComponents.map((component) => (
           <IonRow key={component.id} style={{ marginBottom: '10px', alignItems: 'center' }}>

@@ -1,4 +1,3 @@
-import { IonCard, IonCardContent, IonItem, IonLabel, IonText, IonToast } from '@ionic/react';
 import React, { useState, useRef } from 'react';
 
 interface ComponentProps {
