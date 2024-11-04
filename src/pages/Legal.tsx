@@ -36,7 +36,7 @@ const Legal: React.FC = () => {
         </p>
 
         <p>
-        PC Visualizer shall not be held liable for any claims, losses, damages, or legal disputes arising from the
+          PC Visualizer shall not be held liable for any claims, losses, damages, or legal disputes arising from the
           unauthorized use of images or trademarks by users. We encourage users to obtain proper licensing or permission
           from the appropriate brand owners before using any images or content.
         </p>
@@ -46,6 +46,8 @@ const Legal: React.FC = () => {
           To prevent any potential copyright infringement, our App does not save parts or take screenshots of any components,
           ensuring compliance with cross-origin requests and copyright laws.
         </p>
+        <IonText>By ANDGOEDU</IonText>
+
       </IonContent>
     </IonPage>
   );
