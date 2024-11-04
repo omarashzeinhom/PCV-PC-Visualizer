@@ -11,7 +11,7 @@ const Legal: React.FC = () => {
       </IonHeader>
       <IonContent className="ion-padding">
         <h2>Legal Disclaimer</h2>
-        <p><strong>Last Updated: [Insert Date]</strong></p>
+        <p><strong>Last Updated: 04/11/2024 </strong></p>
 
         <h3>Disclaimer of Liability</h3>
         <p>

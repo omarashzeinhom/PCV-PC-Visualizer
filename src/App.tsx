@@ -13,6 +13,8 @@ import { IonReactRouter } from '@ionic/react-router';
 import { ellipse, square, triangle } from 'ionicons/icons';
 import Tab2 from './pages/Tab2';
 import Legal from './pages/Legal';
+import PCBuilder from './pages/PCbuilder';
+
 import { ComponentProvider } from './context/ComponentContext'; // Adjust the path as needed
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -43,46 +45,45 @@ import '@ionic/react/css/palettes/dark.system.css';
 
 /* Theme variables */
 import './theme/variables.css';
-import PCBuilder from './pages/PCbuilder';
 
 setupIonicReact();
 
 const App: React.FC = () => (
   <ComponentProvider>
-  <IonApp>
-    <IonReactRouter>
-      <IonTabs>
-        <IonRouterOutlet>
-          <Route exact path="/pcbuilder">
-            <PCBuilder />
-          </Route>
-          <Route exact path="/tab2">
-            <Tab2 />
-          </Route>
-          <Route path="/legal">
-            <Legal  />
-          </Route>
-          <Route exact path="/">
-            <Redirect to="/pcbuilder" />
-          </Route>
-        </IonRouterOutlet>
-        <IonTabBar slot="bottom">
-          <IonTabButton tab="PCBuilder" href="/pcbuilder">
-            <IonIcon aria-hidden="true" icon={triangle} />
-            <IonLabel>PC Builder</IonLabel>
-          </IonTabButton>
-          <IonTabButton tab="tab2" href="/tab2">
-            <IonIcon aria-hidden="true" icon={ellipse} />
-            <IonLabel>Builds</IonLabel>
-          </IonTabButton>
-          <IonTabButton tab="legal" href="/legal">
-            <IonIcon aria-hidden="true" icon={square} />
-            <IonLabel>Legal</IonLabel>
-          </IonTabButton>
-        </IonTabBar>
-      </IonTabs>
-    </IonReactRouter>
-  </IonApp>
+    <IonApp>
+      <IonReactRouter>
+        <IonTabs>
+          <IonRouterOutlet>
+            <Route exact path="/pcbuilder">
+              <PCBuilder />
+            </Route>
+            <Route exact path="/tab2">
+              <Tab2 />
+            </Route>
+            <Route path="/legal">
+              <Legal />
+            </Route>
+            <Route exact path="/">
+              <Redirect to="/pcbuilder" />
+            </Route>
+          </IonRouterOutlet>
+          <IonTabBar slot="bottom">
+            <IonTabButton tab="PCBuilder" href="/pcbuilder">
+              <IonIcon aria-hidden="true" icon={triangle} />
+              <IonLabel>PC Builder</IonLabel>
+            </IonTabButton>
+            <IonTabButton tab="tab2" href="/tab2">
+              <IonIcon aria-hidden="true" icon={ellipse} />
+              <IonLabel>Builds</IonLabel>
+            </IonTabButton>
+            <IonTabButton tab="legal" href="/legal">
+              <IonIcon aria-hidden="true" icon={square} />
+              <IonLabel>Legal</IonLabel>
+            </IonTabButton>
+          </IonTabBar>
+        </IonTabs>
+      </IonReactRouter>
+    </IonApp>
   </ComponentProvider>
 );
 

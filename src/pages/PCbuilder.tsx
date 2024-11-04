@@ -16,12 +16,10 @@ const Tab1: React.FC = () => {
             <IonTitle size="large">2D PC Builder</IonTitle>
           </IonToolbar>
         </IonHeader>
-   
-           <PCBuilder/>
-      
-      <IonButton>
-        Save Build
-      </IonButton>
+        <PCBuilder />
+        <IonButton>
+          Save Build
+        </IonButton>
       </IonContent>
     </IonPage>
   );
