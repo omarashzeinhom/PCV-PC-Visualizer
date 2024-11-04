@@ -1,6 +1,5 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
-import ExploreContainer from '../components/ExploreContainer';
-import './Tab1.css';
+import { IonButton, IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
+import './PCBuilder.css';
 import PCBuilder from '../components/PCBuilder/PCBuilder';
 
 const Tab1: React.FC = () => {
@@ -20,6 +19,9 @@ const Tab1: React.FC = () => {
    
            <PCBuilder/>
       
+      <IonButton>
+        Save Build
+      </IonButton>
       </IonContent>
     </IonPage>
   );
