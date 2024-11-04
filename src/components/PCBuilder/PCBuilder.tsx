@@ -84,11 +84,11 @@ const PCBuilder: React.FC = () => {
   };
   
   return (
-    <div>
+    <>
       <div
         id="screenshot-area"
         style={{
-          height: '600px',
+          height: '90vh',
           position: 'relative',
         }}
       >
@@ -174,7 +174,7 @@ const PCBuilder: React.FC = () => {
         message="No PC components added! Please add components before exporting."
         duration={2000}
       />
-    </div>
+    </>
   );
 };
 
