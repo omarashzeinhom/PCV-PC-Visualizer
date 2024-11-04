@@ -16,29 +16,15 @@ interface ComponentProps {
 const PCComponent: React.FC<ComponentProps> = ({ component, onDragEnd }) => {
   const { id, type, x, y, imageSrc, link, specs } = component; // Destructure link and specs
   const [isDragging, setIsDragging] = useState(false);
+  const [isResizing, setIsResizing] = useState(false);
   const [position, setPosition] = useState({ x, y });
+  const [size, setSize] = useState({ width: 100, height: 100 });
   const offset = useRef({ x: 0, y: 0 });
 
-  const getSize = (type: string) => {
-    switch (type) {
-      case 'case':
-        return { width: '100%', height: '100%' }; // Case fills the canvas
-      case 'cpu':
-        return { width: '60px', height: '60px' }; // Slightly larger CPU
-      case 'gpu':
-        return { width: '400px', height: '250px' }; // Wider GPU
-      case 'ram':
-        return { width: '20px', height: '70px' }; // Adjusted RAM size
-      case 'motherboard':
-        return { width: '400px', height: '300px' }; // Larger motherboard
-      case 'cpuCooler':
-        return { width: '70px', height: '70px' }; // Slightly larger CPU cooler
-      case 'psu':
-        return { width: '150px', height: '150px' }; // Wider PSU
-      default:
-        return { width: '40px', height: '20px' }; // Default size for unknown types
-    }
-  };
+  const getSize = () => ({
+    width: `${size.width}px`,
+    height: `${size.height}px`,
+  });
 
   const handleMouseDown = (e: React.MouseEvent) => {
     setIsDragging(true);
@@ -48,21 +34,42 @@ const PCComponent: React.FC<ComponentProps> = ({ component, onDragEnd }) => {
     };
   };
 
+  const handleResizeMouseDown = (e: React.MouseEvent) => {
+    setIsResizing(true);
+    e.stopPropagation(); // Prevent triggering drag
+  };
+
   const handleMouseMove = (e: MouseEvent) => {
     if (isDragging) {
       const newX = e.clientX - offset.current.x;
       const newY = e.clientY - offset.current.y;
       setPosition({ x: newX, y: newY });
     }
+    if (isResizing) {
+      const newWidth = e.clientX - position.x;
+      const newHeight = e.clientY - position.y;
+      setSize({ width: Math.max(50, newWidth), height: Math.max(50, newHeight) }); // Min size constraints
+    }
   };
 
   const handleMouseUp = () => {
-    setIsDragging(false);
-    onDragEnd(id, position.x, position.y);
+    if (isDragging) {
+      setIsDragging(false);
+      onDragEnd(id, position.x, position.y);
+    }
+    if (isResizing) {
+      setIsResizing(false);
+    }
+  };
+
+  const handleContextMenu = (e: React.MouseEvent) => {
+    e.preventDefault();
+    // Show your context menu here or handle resizing/removal logic
+    console.log(`Right clicked on ${type} component`);
   };
 
   React.useEffect(() => {
-    if (isDragging) {
+    if (isDragging || isResizing) {
       window.addEventListener('mousemove', handleMouseMove);
       window.addEventListener('mouseup', handleMouseUp);
     } else {
@@ -74,7 +81,7 @@ const PCComponent: React.FC<ComponentProps> = ({ component, onDragEnd }) => {
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('mouseup', handleMouseUp);
     };
-  }, [isDragging]);
+  }, [isDragging, isResizing]);
 
   return (
     <div>
@@ -83,7 +90,7 @@ const PCComponent: React.FC<ComponentProps> = ({ component, onDragEnd }) => {
           position: 'absolute',
           left: `${position.x}px`,
           top: `${position.y}px`,
-          ...getSize(type),
+          ...getSize(),
           backgroundColor: imageSrc ? 'transparent' : 'lightgray',
           display: 'flex',
           alignItems: 'center',
@@ -93,21 +100,30 @@ const PCComponent: React.FC<ComponentProps> = ({ component, onDragEnd }) => {
           cursor: isDragging ? 'grabbing' : 'grab',
         }}
         onMouseDown={handleMouseDown}
+        onContextMenu={handleContextMenu}
       >
         {imageSrc ? (
           <img src={imageSrc} alt={type} style={{ width: '100%', height: '100%' }} />
         ) : (
-          type.toUpperCase()
+          <span>{type.toUpperCase()}</span>
         )}
+        <div
+          onMouseDown={handleResizeMouseDown}
+          style={{
+            position: 'absolute',
+            right: 0,
+            bottom: 0,
+            width: '10px',
+            height: '10px',
+            backgroundColor: 'blue',
+            cursor: 'nwse-resize',
+          }}
+        />
       </div>
-      {/* Specifications and Link Below */}
-      <div style={{ marginTop: '10px', textAlign: 'center' }}>
-        {specs && <div style={{ fontSize: '12px' }}>{specs}</div>}
-        {link && (
-          <a href={link} target="_blank" rel="noopener noreferrer" style={{ fontSize: '12px', color: 'blue' }}>
-            View Product
-          </a>
-        )}
+      <div style={{ textAlign: 'center' }}>
+        <a href={link} target="_blank" rel="noopener noreferrer">
+          {specs}
+        </a>
       </div>
     </div>
   );
