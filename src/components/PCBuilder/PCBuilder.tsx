@@ -78,8 +78,8 @@ const demoComponents: Component[] = [
     y: 50,
     width: 70, // Width in pixels for the CPU cooler
     height: 70, // Height in pixels for the CPU cooler
-    imageSrc: 'https://via.placeholder.com/60x60',
-    specs: 'Noctua NH-D15S',
+    imageSrc: 'https://res.cloudinary.com/dmbzzkneb/image/upload/v1730723487/3105984_lian-li-galahad-ii-lcd-argb-36cm-fekete-removebg-preview_1_es9f39.png',
+    specs: 'GA II LCD',
     link: 'https://example.com/cpuCooler' // Add the actual link here
   },
   {
@@ -98,15 +98,29 @@ const demoComponents: Component[] = [
 const PCBuilder: React.FC = () => {
   const [components, setComponents] = useState<Component[]>([]);
   const [showToast, setShowToast] = useState(false); // State for toast notification
+  const [imageInputs, setImageInputs] = useState<{ [key: string]: string }>({}); // State for image inputs
 
   const addComponent = (component: Component) => {
+    const imageSrc = imageInputs[component.id] || component.imageSrc; // Use user input or fallback to demo image
+
+    // Create a new component object
+    const newComponent: Component = {
+      ...component,
+      imageSrc, // Set the image source
+    };
+
+    // Check if the component already exists
     const existingComponent = components.find(c => c.id === component.id);
     if (existingComponent) {
       // If component already exists, allow editing
-      editComponent(existingComponent.id, { ...existingComponent });
+      editComponent(existingComponent.id, newComponent);
     } else {
-      setComponents((prev) => [...prev, component]);
+      // Otherwise, add the new component
+      setComponents((prev) => [...prev, newComponent]);
     }
+
+    // Clear the input field for the added component
+    setImageInputs((prev) => ({ ...prev, [component.id]: '' }));
   };
 
   const editComponent = (id: string, updatedComponent: Component) => {
@@ -156,8 +170,8 @@ const PCBuilder: React.FC = () => {
       <div
         style={{
           position: 'relative',
-          width: '800px', // Increased width
-          height: '600px', // Increased height
+          width: '800px',
+          height: '600px',
           border: '1px solid black',
           marginTop: '20px',
           overflow: 'hidden',
@@ -174,9 +188,18 @@ const PCBuilder: React.FC = () => {
 
       <div>
         {demoComponents.map((component) => (
-          <IonButton key={component.id} onClick={() => addComponent(component)}>
-            Add {component.type.toUpperCase()}
-          </IonButton>
+          <div key={component.id} style={{ marginBottom: '10px' }}>
+            <input
+              type="text"
+              placeholder={`Image link for ${component.type}`}
+              value={imageInputs[component.id] || ''}
+              onChange={(e) => setImageInputs({ ...imageInputs, [component.id]: e.target.value })}
+              style={{ marginRight: '10px' }}
+            />
+            <IonButton onClick={() => addComponent(component)}>
+              Add {component.type.toUpperCase()}
+            </IonButton>
+          </div>
         ))}
       </div>
 
