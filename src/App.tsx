@@ -7,11 +7,11 @@ import {
   IonTabBar,
   IonTabButton,
   IonTabs,
-  IonText,
+
   setupIonicReact
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import { ellipse, square, triangle } from 'ionicons/icons';
+import { buildOutline, documentTextOutline, saveOutline } from 'ionicons/icons';
 import Tab2 from './pages/Tab2';
 import Legal from './pages/Legal';
 import PCBuilder from './pages/PCbuilder';
@@ -70,15 +70,15 @@ const App: React.FC = () => (
           </IonRouterOutlet>
           <IonTabBar slot="bottom">
             <IonTabButton tab="PCBuilder" href="/pcbuilder">
-              <IonIcon aria-hidden="true" icon={triangle} />
+              <IonIcon aria-hidden="true" icon={buildOutline} />
               <IonLabel>PC Builder</IonLabel>
             </IonTabButton>
             <IonTabButton tab="tab2" href="/tab2">
-              <IonIcon aria-hidden="true" icon={ellipse} />
+              <IonIcon aria-hidden="true" icon={saveOutline} />
               <IonLabel>Builds</IonLabel>
             </IonTabButton>
             <IonTabButton tab="legal" href="/legal">
-              <IonIcon aria-hidden="true" icon={square} />
+              <IonIcon aria-hidden="true" icon={documentTextOutline} />
               <IonLabel>Legal</IonLabel>
             </IonTabButton>
           </IonTabBar>
