@@ -95,12 +95,26 @@ const demoComponents: Component[] = [
   },
 ];
 
-
 const PCBuilder: React.FC = () => {
   const [components, setComponents] = useState<Component[]>([]);
   const [showToast, setShowToast] = useState(false); // State for toast notification
+
   const addComponent = (component: Component) => {
-    setComponents((prev) => [...prev, component]);
+    const existingComponent = components.find(c => c.id === component.id);
+    if (existingComponent) {
+      // If component already exists, allow editing
+      editComponent(existingComponent.id, { ...existingComponent });
+    } else {
+      setComponents((prev) => [...prev, component]);
+    }
+  };
+
+  const editComponent = (id: string, updatedComponent: Component) => {
+    setComponents((prev) =>
+      prev.map((component) =>
+        component.id === id ? { ...component, ...updatedComponent } : component
+      )
+    );
   };
 
   const handleDragEnd = (id: string, x: number, y: number) => {
@@ -110,6 +124,7 @@ const PCBuilder: React.FC = () => {
       )
     );
   };
+
   const exportSpecs = () => {
     if (components.length === 0) {
       setShowToast(true); // Show toast if no components
@@ -135,10 +150,9 @@ const PCBuilder: React.FC = () => {
     document.body.removeChild(a);
     URL.revokeObjectURL(url); // Clean up the URL object
   };
+
   return (
     <div>
-
-
       <div
         style={{
           position: 'relative',
