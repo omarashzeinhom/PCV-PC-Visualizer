@@ -86,6 +86,8 @@ const PCComponent: React.FC<ComponentProps> = ({ component, onDragEnd, onResizeE
             x: touch.clientX - position.x,
             y: touch.clientY - position.y,
         };
+        // Disable page scroll on Y-axis
+        document.body.style.overflowY = 'hidden';
     };
 
     const handleTouchMove = (e: TouchEvent) => {
@@ -110,6 +112,8 @@ const PCComponent: React.FC<ComponentProps> = ({ component, onDragEnd, onResizeE
             setIsResizing(false);
             onResizeEnd(id, size.width, size.height);
         }
+        // Enable page scroll on Y-axis
+        document.body.style.overflowY = 'auto';
     };
 
     const handleResizeTouchStart = (e: React.TouchEvent) => {
