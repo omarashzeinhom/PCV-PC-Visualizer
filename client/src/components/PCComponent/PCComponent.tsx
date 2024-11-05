@@ -165,7 +165,7 @@ const PCComponent: React.FC<ComponentProps> = ({ component, onDragEnd, onResizeE
                     overflow: 'hidden',
                     zIndex: type === 'case' ? 0 : 1,
                     cursor: isDragging ? 'grabbing' : 'grab',
-                    border: isOutlineVisible ? '2px dashed red' : 'none',
+                    border: isOutlineVisible ? '2px dashed teal' : 'none',
                 }}
                 
                 onMouseDown={handleMouseDown}
