@@ -19,10 +19,18 @@ const PCBuilder: React.FC = () => {
     localStorage.setItem('pcComponents', JSON.stringify(components));
   }, [components]);
 
-  useEffect(() => {
-    const updateDevice = () => {
-      setDevice(window.innerWidth < 768 ? 'mobile' : 'desktop');
+  const debounce = (func: Function, delay: number) => {
+    let timeout: NodeJS.Timeout;
+    return (...args: any[]) => {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func(...args), delay);
     };
+};
+
+  useEffect(() => {
+    const updateDevice = debounce(() => {
+      setDevice(window.innerWidth < 768 ? 'mobile' : 'desktop');
+  }, 200);
     updateDevice();
     window.addEventListener('resize', updateDevice);
     return () => window.removeEventListener('resize', updateDevice);
@@ -91,10 +99,11 @@ const PCBuilder: React.FC = () => {
   };
 
   const resetCache = () => {
-    localStorage.clear(); // Clears all items in localStorage
+    localStorage.clear();
+    setComponents([]);
     console.log('Cache has been reset.');
-  };
-  
+    alert('Build Has Been Cleared')
+};
 
   
   return (
