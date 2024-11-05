@@ -43,6 +43,8 @@ const PCComponent: React.FC<ComponentProps> = ({ component, onDragEnd, onResizeE
             x: e.clientX - position.x,
             y: e.clientY - position.y,
         };
+        // Disable page scroll on Y-axis
+        document.body.style.overflowY = 'hidden';
     };
 
     const handleMouseMove = (e: MouseEvent) => {
@@ -65,6 +67,8 @@ const PCComponent: React.FC<ComponentProps> = ({ component, onDragEnd, onResizeE
             setIsResizing(false);
             onResizeEnd(id, size.width, size.height);
         }
+        // Enable page scroll on Y-axis
+        document.body.style.overflowY = 'auto';
     };
 
     // Resize handle for mouse
@@ -100,90 +104,90 @@ const PCComponent: React.FC<ComponentProps> = ({ component, onDragEnd, onResizeE
 
     const handleTouchEnd = () => {
         if (isDragging) {
-          setIsDragging(false);
-          onDragEnd(id, position.x, position.y, size.width, size.height);
+            setIsDragging(false);
+            onDragEnd(id, position.x, position.y, size.width, size.height);
         } else if (isResizing) {
-          setIsResizing(false);
-          onResizeEnd(id, size.width, size.height);
+            setIsResizing(false);
+            onResizeEnd(id, size.width, size.height);
         }
-      };
-    
-      const handleResizeTouchStart = (e: React.TouchEvent) => {
+    };
+
+    const handleResizeTouchStart = (e: React.TouchEvent) => {
         setIsResizing(true);
         e.stopPropagation();
-      };
+    };
 
     const handleRightClick = (e: React.MouseEvent) => {
         e.preventDefault();
         setIsOutlineVisible(!isOutlineVisible);
     };
 
-    
+
     useEffect(() => {
         if (isDragging || isResizing) {
-          window.addEventListener('mousemove', handleMouseMove);
-          window.addEventListener('mouseup', handleMouseUp);
-          window.addEventListener('touchmove', handleTouchMove);
-          window.addEventListener('touchend', handleTouchEnd);
+            window.addEventListener('mousemove', handleMouseMove);
+            window.addEventListener('mouseup', handleMouseUp);
+            window.addEventListener('touchmove', handleTouchMove);
+            window.addEventListener('touchend', handleTouchEnd);
         } else {
-          window.removeEventListener('mousemove', handleMouseMove);
-          window.removeEventListener('mouseup', handleMouseUp);
-          window.removeEventListener('touchmove', handleTouchMove);
-          window.removeEventListener('touchend', handleTouchEnd);
+            window.removeEventListener('mousemove', handleMouseMove);
+            window.removeEventListener('mouseup', handleMouseUp);
+            window.removeEventListener('touchmove', handleTouchMove);
+            window.removeEventListener('touchend', handleTouchEnd);
         }
-    
+
         return () => {
-          window.removeEventListener('mousemove', handleMouseMove);
-          window.removeEventListener('mouseup', handleMouseUp);
-          window.removeEventListener('touchmove', handleTouchMove);
-          window.removeEventListener('touchend', handleTouchEnd);
+            window.removeEventListener('mousemove', handleMouseMove);
+            window.removeEventListener('mouseup', handleMouseUp);
+            window.removeEventListener('touchmove', handleTouchMove);
+            window.removeEventListener('touchend', handleTouchEnd);
         };
-      }, [isDragging, isResizing]);
+    }, [isDragging, isResizing]);
 
     return (
         <div>
-        <div
-          onContextMenu={handleRightClick}
-          style={{
-            position: 'absolute',
-            left: `${position.x}px`,
-            top: `${position.y}px`,
-            ...getSize(),
-            backgroundColor: imageSrc ? 'transparent' : 'lightgray',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            overflow: 'hidden',
-            zIndex: type === 'case' ? 0 : 1,
-            cursor: isDragging ? 'grabbing' : 'grab',
-            border: isOutlineVisible ? '2px dashed red' : 'none',
-          }}
-          onMouseDown={handleMouseDown}
-          onTouchStart={handleTouchStart}
-        >
-          {imageSrc ? (
-            <img src={imageSrc} alt={type} style={{ width: '100%', height: '100%' }} />
-          ) : (
-            type.toUpperCase()
-          )}
-          {isOutlineVisible && (
             <div
-              ref={resizeRef}
-              onMouseDown={handleResizeMouseDown}
-              onTouchStart={handleResizeTouchStart} // Touch resize handle
-              style={{
-                position: 'absolute',
-                right: 0,
-                bottom: 0,
-                width: '10px',
-                height: '10px',
-                backgroundColor: 'blue',
-                cursor: isMobile ? 'nwse-resize' : 'se-resize',
-              }}
-            />
-          )}
+                onContextMenu={handleRightClick}
+                style={{
+                    position: 'absolute',
+                    left: `${position.x}px`,
+                    top: `${position.y}px`,
+                    ...getSize(),
+                    backgroundColor: imageSrc ? 'transparent' : 'lightgray',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    overflow: 'hidden',
+                    zIndex: type === 'case' ? 0 : 1,
+                    cursor: isDragging ? 'grabbing' : 'grab',
+                    border: isOutlineVisible ? '2px dashed red' : 'none',
+                }}
+                onMouseDown={handleMouseDown}
+                onTouchStart={handleTouchStart}
+            >
+                {imageSrc ? (
+                    <img src={imageSrc} alt={type} style={{ width: '100%', height: '100%' }} />
+                ) : (
+                    type.toUpperCase()
+                )}
+                {isOutlineVisible && (
+                    <div
+                        ref={resizeRef}
+                        onMouseDown={handleResizeMouseDown}
+                        onTouchStart={handleResizeTouchStart} // Touch resize handle
+                        style={{
+                            position: 'absolute',
+                            right: 0,
+                            bottom: 0,
+                            width: '10px',
+                            height: '10px',
+                            backgroundColor: 'blue',
+                            cursor: isMobile ? 'nwse-resize' : 'se-resize',
+                        }}
+                    />
+                )}
+            </div>
         </div>
-      </div>
     );
 };
 
