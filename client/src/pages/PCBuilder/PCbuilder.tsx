@@ -1,6 +1,7 @@
 import { IonButton, IonContent, IonHeader, IonPage, IonText, IonTitle, IonToolbar } from '@ionic/react';
 import './PCBuilder.css';
 import PCBuilder from '../../components/PCBuilder/PCBuilder';
+import ToastInstructions from '../../components/ToastInstructions/ToastInstructions';
 
 const Tab1: React.FC = () => {
   return (
@@ -17,6 +18,7 @@ const Tab1: React.FC = () => {
           </IonToolbar>
         </IonHeader>
         <PCBuilder />
+        <ToastInstructions />
         <IonText>By ANDGOEDU</IonText>
 
       </IonContent>
