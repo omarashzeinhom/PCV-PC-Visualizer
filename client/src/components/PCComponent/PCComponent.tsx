@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import './PCComponent.css';
 
 interface ComponentProps {
     component: {
@@ -166,6 +167,7 @@ const PCComponent: React.FC<ComponentProps> = ({ component, onDragEnd, onResizeE
                     cursor: isDragging ? 'grabbing' : 'grab',
                     border: isOutlineVisible ? '2px dashed red' : 'none',
                 }}
+                className='pc-component'
                 onMouseDown={handleMouseDown}
                 onTouchStart={handleTouchStart}
             >

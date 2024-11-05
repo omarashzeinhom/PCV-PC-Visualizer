@@ -1,0 +1,19 @@
+.pc-component {
+    background-color: transparent; /* or another color */
+    position: absolute; /* Ensure proper positioning */
+}
+
+@media (max-width: 768px) { /* Tablet and mobile */
+    .pc-component {
+      width: 100%; /* Use 100% width on smaller screens */
+      height: auto; /* Maintain aspect ratio */
+    }
+  }
+  
+  @media (min-width: 769px) { /* Desktop */
+    .pc-component {
+      /* Define your desktop styles here */
+      width: auto; /* Default styles for desktop */
+      height: auto; /* Default styles for desktop */
+    }
+  }

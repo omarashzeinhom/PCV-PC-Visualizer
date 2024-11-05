@@ -1,31 +1,23 @@
-.pc-component {
-    background-color: transparent; /* or another color */
-    position: absolute; /* Ensure proper positioning */
-}
+
 
 #screenshot-area {
-    position: relative;
-    width: 100%;
-    min-height: 600px;
-    max-height: 1080px;
-    height: 100%;
-    border: 1px solid black;
-    margin-top: 20px;
-    overflow: hidden;
-    background-color: #282828; /* Set a solid background color */
+  background-color: #282828;
+  background: radial-gradient(
+      circle,
+      rgba(40, 40, 40, 1) 0%,       /* Center color */
+      rgba(30, 30, 30, 1) 80%       /* Edge color for subtle darkening */
+  );
+  background-blend-mode: multiply;  /* To keep the effect subtle */
+  width: 100%;                      /* Adjust based on your container */
+  height: 100%;                     /* Adjust based on your container */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-@media (max-width: 768px) { /* Tablet and mobile */
-    .pc-component {
-      width: 100%; /* Use 100% width on smaller screens */
-      height: auto; /* Maintain aspect ratio */
-    }
-  }
-  
-  @media (min-width: 769px) { /* Desktop */
-    .pc-component {
-      /* Define your desktop styles here */
-      width: auto; /* Default styles for desktop */
-      height: auto; /* Default styles for desktop */
+
+  @media (max-width: 768px) { /* Adjust this breakpoint as needed */
+    #screenshot-area {
+      height: 70vh; /* Set height to 70vh on mobile */
     }
   }

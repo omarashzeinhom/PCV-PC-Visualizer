@@ -1,0 +1,14 @@
+# Ignore environment variables
+.env
+
+# Ignore node_modules folders in both client and server
+client/node_modules/
+server/node_modules/
+
+# Ignore build artifacts
+client/build/
+server/dist/
+
+# Other files and directories to ignore
+*.log
+.DS_Store

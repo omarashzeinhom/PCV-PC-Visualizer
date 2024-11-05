@@ -95,6 +95,8 @@ const PCBuilder: React.FC = () => {
     console.log('Cache has been reset.');
   };
   
+
+  
   return (
     <>
       <div
@@ -107,6 +109,7 @@ const PCBuilder: React.FC = () => {
         {components.map((component) => (
           <PCComponent
             key={component.id}
+            
             component={{
               ...component,
               width: component.width * (device === 'mobile' ? 0.8 : 1),
