@@ -12,9 +12,9 @@ import {
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import { buildOutline, documentTextOutline, saveOutline } from 'ionicons/icons';
-import Tab2 from './pages/Tab2';
-import Legal from './pages/Legal';
-import PCBuilder from './pages/PCbuilder';
+import Tab2 from './pages/SavedBuilds/Tab2';
+import Legal from './pages/Legal/Legal';
+import PCBuilder from './pages/PCBuilder/PCbuilder';
 
 import { ComponentProvider } from './context/ComponentContext'; // Adjust the path as needed
 /* Core CSS required for Ionic components to work properly */
