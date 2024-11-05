@@ -12,10 +12,22 @@ const PCBuilder: React.FC = () => {
 
   const [showToast, setShowToast] = useState(false);
   const [imageInputs, setImageInputs] = useState<{ [key: string]: string }>({});
+  const [device, setDevice] = useState<'desktop' | 'mobile'>('desktop');
+
 
   useEffect(() => {
     localStorage.setItem('pcComponents', JSON.stringify(components));
   }, [components]);
+
+  useEffect(() => {
+    const updateDevice = () => {
+      setDevice(window.innerWidth < 768 ? 'mobile' : 'desktop');
+    };
+    updateDevice();
+    window.addEventListener('resize', updateDevice);
+    return () => window.removeEventListener('resize', updateDevice);
+  }, []);
+
 
   const addComponent = (component: Component) => {
     const imageSrc = imageInputs[component.id] || component.imageSrc;
@@ -97,8 +109,8 @@ const PCBuilder: React.FC = () => {
             key={component.id}
             component={{
               ...component,
-              width: component.width * (window.innerWidth < 768 ? 0.8 : 1), // Adjust width based on viewport size
-              height: component.height * (window.innerWidth < 768 ? 0.8 : 1), // Adjust height based on viewport size
+              width: component.width * (device === 'mobile' ? 0.8 : 1),
+              height: component.height * (device === 'mobile' ? 0.8 : 1)
             }}
             onDragEnd={handleDragEnd}
             onResizeEnd={handleResizeEnd} // Add the resize handler
