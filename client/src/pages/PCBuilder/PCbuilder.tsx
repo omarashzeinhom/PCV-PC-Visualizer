@@ -1,6 +1,6 @@
 import { IonButton, IonContent, IonHeader, IonPage, IonText, IonTitle, IonToolbar } from '@ionic/react';
 import './PCBuilder.css';
-import PCBuilder from '../components/PCBuilder/PCBuilder';
+import PCBuilder from '../../components/PCBuilder/PCBuilder';
 
 const Tab1: React.FC = () => {
   return (
