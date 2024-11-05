@@ -74,30 +74,7 @@ const PCBuilder: React.FC = () => {
     );
   };
 
-  const exportSpecs = () => {
-    if (components.length === 0) {
-      setShowToast(true);
-      return;
-    }
-    const specs = components.map(({ id, type, specs }) => ({
-      id,
-      type,
-      specs,
-    }));
-
-    const blob = new Blob([JSON.stringify(specs, null, 2)], {
-      type: 'application/json',
-    });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'pc_components_specs.json';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-  };
-
+ 
   const resetCache = () => {
     localStorage.clear();
     setComponents([]);
@@ -166,32 +143,11 @@ const PCBuilder: React.FC = () => {
                 Add {component.type.toUpperCase()}
               </IonButton>
             </IonCol>
-            <IonCol>
-              <IonCard style={{ margin: 0, padding: '5px', textAlign: 'center' }}>
-                <IonCardContent>
-                  {component.specs && (
-                    <IonText style={{ fontSize: '12px' }}>{component.specs}</IonText>
-                  )}
-                  {component.link && (
-                    <IonItem lines="none" style={{ padding: 0 }}>
-                      <IonLabel>
-                        <IonText color="primary" style={{ fontSize: '12px' }}>
-                          <a href={component.link} target="_blank" rel="noopener noreferrer">
-                            View Product
-                          </a>
-                        </IonText>
-                      </IonLabel>
-                    </IonItem>
-                  )}
-                </IonCardContent>
-              </IonCard>
-            </IonCol>
+
           </IonRow>
         ))}
       </IonGrid>
-      <IonButton onClick={exportSpecs} style={{ marginTop: '20px' }}>
-        Export Specs
-      </IonButton>
+
       <IonToast
         isOpen={showToast}
         onDidDismiss={() => setShowToast(false)}

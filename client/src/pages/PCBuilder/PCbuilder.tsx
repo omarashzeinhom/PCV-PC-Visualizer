@@ -17,13 +17,10 @@ const Tab1: React.FC = () => {
           </IonToolbar>
         </IonHeader>
         <PCBuilder />
-        <IonButton>
-          Save Build
-        </IonButton>
         <IonText>By ANDGOEDU</IonText>
 
       </IonContent>
-      
+
     </IonPage>
   );
 };
