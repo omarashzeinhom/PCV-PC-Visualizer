@@ -121,6 +121,6 @@ Contributions are welcome! If you have suggestions for improvements or new featu
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
 
-### Referneces 
+### Referneces
 
 1. [using process.env in TypeScript](https://stackoverflow.com/questions/45194598/using-process-env-in-typescript)
