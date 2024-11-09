@@ -7,14 +7,11 @@ import {
   IonTabBar,
   IonTabButton,
   IonTabs,
-
   setupIonicReact
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import { buildOutline, documentTextOutline, saveOutline } from 'ionicons/icons';
-import Tab2 from './pages/SavedBuilds/Tab2';
-import Legal from './pages/Legal/Legal';
-import PCBuilder from './pages/PCBuilder/PCbuilder';
+
 
 import { ComponentProvider } from './context/ComponentContext'; // Adjust the path as needed
 /* Core CSS required for Ionic components to work properly */
@@ -46,6 +43,7 @@ import '@ionic/react/css/palettes/dark.system.css';
 
 /* Theme variables */
 import './theme/variables.css';
+import { PCBuilder, SavedBuild, Legal, Register } from "./pages/index";
 
 setupIonicReact();
 
@@ -58,11 +56,14 @@ const App: React.FC = () => (
             <Route exact path="/pcbuilder">
               <PCBuilder />
             </Route>
-            <Route exact path="/tab2">
-              <Tab2 />
+            <Route exact path="/savedbuild">
+              <SavedBuild />
             </Route>
             <Route path="/legal">
               <Legal />
+            </Route>
+            <Route path="/register">
+              <Register />
             </Route>
             <Route exact path="/">
               <Redirect to="/pcbuilder" />
@@ -73,7 +74,7 @@ const App: React.FC = () => (
               <IonIcon aria-hidden="true" icon={buildOutline} />
               <IonLabel>PC Builder</IonLabel>
             </IonTabButton>
-            <IonTabButton tab="tab2" href="/tab2">
+            <IonTabButton tab="SavedBuild" href="/savedbuild">
               <IonIcon aria-hidden="true" icon={saveOutline} />
               <IonLabel>Builds</IonLabel>
             </IonTabButton>
