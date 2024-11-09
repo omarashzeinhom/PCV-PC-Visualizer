@@ -1,13 +1,18 @@
 import { Request, Response, NextFunction } from 'express';
-import jwt from 'jsonwebtoken';
+import { verifyToken } from '../utils/jwUtils';
 
-export const authenticateToken = (req: Request, res: Response, next: NextFunction) => {
-  const token = req.headers['authorization']?.split(' ')[1];
+export const authenticate = (req: Request, res: Response, next: NextFunction) => {
+  const token = req.headers.authorization?.split(' ')[1]; // Bearer <token>
 
-  if (!token) return res.sendStatus(401);
+  if (!token) {
+    return res.status(401).json({ message: 'Access denied. No token provided.' });
+  }
 
-  jwt.verify(token, process.env.JWT_SECRET as string, (err) => {
-    if (err) return res.sendStatus(403);
-    next();
-  });
+  const decoded = verifyToken(token);
+  if (!decoded) {
+    return res.status(401).json({ message: 'Invalid token.' });
+  }
+
+  (req as any).userId = (decoded as any).userId;
+  next();
 };

@@ -4,31 +4,25 @@ import cors from 'cors';
 import connectDB from './config/db';
 import authRoutes from './routes/authRoutes';
 
-
-dotenv.config();
 dotenv.config({ path: '../.env' });
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// DEBUG
-//console.log('Environment Variables:', process.env); // Log all to see what’s loaded
-
-
 // Connect to the database
 connectDB();
 
 // Middleware
+app.use(cors());
 app.use(express.json());
 
 // Routes
-app.use('/api/auth', authRoutes);
-
-
-app.listen(process.env.PORT, () => {
-  console.log('🚀 Server is up and running at http://localhost:' + PORT);
+app.get('/', (req, res) => {
+  res.send('Welcome to PC Visualizer API');
 });
 
+app.use('/api/auth', authRoutes);
 
-
-app.use(cors());
+app.listen(PORT, () => {
+  console.log('🚀 Server is up and running at http://localhost:' + PORT);
+});
