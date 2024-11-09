@@ -1,20 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { IonContent, IonHeader, IonPage, IonText, IonTitle, IonToolbar, IonToast, IonBackdrop } from '@ionic/react';
+import { IonContent, IonHeader, IonPage, IonText, IonTitle, IonToolbar, IonToast, IonBackdrop, IonItem, IonLabel } from '@ionic/react';
+import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 import ExploreContainer from '../../components/Explore/ExploreContainer';
 import './SavedBuild.css';
 
 const SavedBuild: React.FC = () => {
-  // State to manage the visibility of the toast and backdrop
   const [showToast, setShowToast] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
   useEffect(() => {
-    // Check localStorage or a global state/context if the user is logged in
     const token = localStorage.getItem('token');
-    setIsLoggedIn(!!token); // Set true if token exists, false otherwise
+    setIsLoggedIn(!!token); // Check if the user is logged in
   }, []);
 
-  // Show toast notification and block access if not logged in
   const handlePageAccess = () => {
     if (!isLoggedIn) {
       setShowToast(true);
@@ -22,7 +20,7 @@ const SavedBuild: React.FC = () => {
   };
 
   useEffect(() => {
-    handlePageAccess(); // Check and show toast if user is not logged in
+    handlePageAccess();
   }, [isLoggedIn]);
 
   return (
@@ -38,13 +36,12 @@ const SavedBuild: React.FC = () => {
           <IonBackdrop
             visible={true}
             style={{
-              zIndex: 10, // Place backdrop above all content
+              zIndex: 10,
               backgroundColor: 'rgba(0,0,0,0.5)',
             }}
           />
         )}
-        
-        {/* Main content */}
+
         <IonHeader collapse="condense">
           <IonToolbar>
             <IonTitle size="large">Builds</IonTitle>
@@ -55,9 +52,21 @@ const SavedBuild: React.FC = () => {
         {isLoggedIn ? (
           <ExploreContainer name="Your Builds" />
         ) : (
-          <IonText color="medium">Please log in to save your builds.</IonText>
-        )}
+          <>
+            {/* Use Link with IonItem for navigation */}
         
+              <Link to="/login">
+                Log in
+              </Link>
+         
+              <Link to="/register">
+              Register
+              </Link>
+      
+            <IonText>to save your builds.</IonText>
+          </>
+        )}
+
         <IonText>By ANDGOEDU</IonText>
 
         {/* Toast Message */}
@@ -65,8 +74,8 @@ const SavedBuild: React.FC = () => {
           isOpen={showToast}
           message="You need to be logged in to save your builds"
           duration={3000}
-          onDidDismiss={() => setShowToast(false)} // Hide toast after it disappears
-          position="middle" // This will center the toast
+          onDidDismiss={() => setShowToast(false)}
+          position="middle"
         />
       </IonContent>
     </IonPage>
