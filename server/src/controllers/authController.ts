@@ -6,6 +6,10 @@ import User, { IUser } from '../models/User';
 export const register = async (req: Request, res: Response) => {
   const { username, password } = req.body;
 
+  // Check if username and password are provided
+  if (!username || !password) {
+    return res.status(400).json({ message: 'Username and password are required' });
+  }
   // Generate a salt and hash the password with bcrypt
   // '10' is the salt rounds, which is a good practice for security
   const hashedPassword = await bcrypt.hash(password, 10);
