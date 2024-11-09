@@ -3,26 +3,31 @@ import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonInput, IonButt
 import './Register.css';
 
 const Register: React.FC = () => {
+  // States to manage form inputs and toast visibility
   const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
 
+  // Form submission handler
   const handleRegister = async () => {
-    if (!username || !password) {
-      setToastMessage('Please fill in both fields');
+    if (!username || !email || !password) {
+      setToastMessage('Please fill in all fields');
       setShowToast(true);
       return;
     }
 
     try {
+      // Assuming you have an API to register the user
       const response = await fetch(import.meta.env.VITE_API_URL + 'api/auth/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          username,  // Send username, not email
+          username,
+          email,
           password,
         }),
       });
@@ -54,6 +59,7 @@ const Register: React.FC = () => {
           </IonToolbar>
         </IonHeader>
 
+        {/* Registration Form */}
         <div className="register-form">
           <IonItem>
             <IonLabel position="floating">Username</IonLabel>
@@ -61,6 +67,17 @@ const Register: React.FC = () => {
               value={username}
               onIonChange={(e) => setUsername(e.detail.value!)}
               placeholder="Enter your username"
+            />
+          </IonItem>
+
+          <IonItem>
+            <IonLabel position="floating">Email</IonLabel>
+            <IonInput
+              type="email"
+              value={email}
+              onIonChange={(e) => setEmail(e.detail.value!)}
+              placeholder="Enter your email"
+              required
             />
           </IonItem>
 
@@ -78,6 +95,7 @@ const Register: React.FC = () => {
             Register
           </IonButton>
 
+          {/* Toast Message for errors/success */}
           <IonToast
             isOpen={showToast}
             message={toastMessage}
