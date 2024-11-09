@@ -4,9 +4,9 @@ import jwt from 'jsonwebtoken';
 import User, { IUser } from '../models/User';
 
 export const register = async (req: Request, res: Response) => {
-  const { username, email,password, } = req.body;
+  const { username, email, password, } = req.body;
 
-  
+
   // Generate a salt and hash the password with bcrypt
   // '10' is the salt rounds, which is a good practice for security
   const hashedPassword = await bcrypt.hash(password, 10);
