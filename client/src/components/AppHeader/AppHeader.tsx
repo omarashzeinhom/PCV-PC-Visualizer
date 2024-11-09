@@ -8,7 +8,7 @@ const AppHeader: React.FC = () => {
         <IonButtons slot="start">
           <IonMenuButton />
         </IonButtons>
-        <IonTitle>My PC Builder</IonTitle>
+        <IonTitle>PCV</IonTitle>
       </IonToolbar>
     </IonHeader>
   );
