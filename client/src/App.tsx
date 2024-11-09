@@ -2,16 +2,11 @@ import React from 'react';
 import { Redirect, Route } from 'react-router-dom';
 import {
   IonApp,
-  IonIcon,
-  IonLabel,
   IonRouterOutlet,
-  IonTabBar,
-  IonTabButton,
   IonTabs,
   setupIonicReact
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import { buildOutline, documentTextOutline, saveOutline } from 'ionicons/icons';
 
 import { ComponentProvider } from './context/ComponentContext'; // Adjust the path as needed
 
@@ -37,10 +32,7 @@ import '@ionic/react/css/palettes/dark.system.css';
 /* Theme variables */
 import './theme/variables.css';
 import { PCBuilder, SavedBuild, Legal, Register, Login } from "./pages/index";
-
-import AppMenu from './components/AppMenu/AppMenu'; // Importing the AppMenu component
-import AppHeader from './components/AppHeader/AppHeader'; // Importing the AppHeader component
-import AppTabs from './components/AppTabs/AppTabs';
+import { AppHeader, AppMenu, AppTabs } from './components';
 
 setupIonicReact();
 
@@ -77,7 +69,7 @@ const App: React.FC = () => (
           </IonRouterOutlet>
 
           {/* Tab bar with navigation links */}
-         <AppTabs/>
+          <AppTabs />
         </IonTabs>
       </IonReactRouter>
     </IonApp>
