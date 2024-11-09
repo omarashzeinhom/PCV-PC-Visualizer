@@ -8,7 +8,7 @@ A Node.js server for managing user authentication and saving PC builds, integrat
 - [Technologies Used](#technologies-used)
 - [Getting Started](#getting-started)
 - [API Endpoints](#api-endpoints)
-  - [Authentication](#authentication)
+- [Authentication](#authentication)
 - [To Do](#to-do)
 - [Contributing](#contributing)
 - [License](#license)
@@ -120,3 +120,7 @@ Contributions are welcome! If you have suggestions for improvements or new featu
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
+
+### Referneces 
+
+1. [using process.env in TypeScript](https://stackoverflow.com/questions/45194598/using-process-env-in-typescript)
