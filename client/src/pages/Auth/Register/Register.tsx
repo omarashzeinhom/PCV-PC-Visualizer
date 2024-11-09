@@ -3,13 +3,11 @@ import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonInput, IonButt
 import './Register.css';
 
 const Register: React.FC = () => {
-  // States to manage form inputs and toast visibility
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
 
-  // Form submission handler
   const handleRegister = async () => {
     if (!username || !password) {
       setToastMessage('Please fill in both fields');
@@ -18,14 +16,13 @@ const Register: React.FC = () => {
     }
 
     try {
-      // Assuming you have an API to register the user
       const response = await fetch(import.meta.env.VITE_API_URL + 'api/auth/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          username,
+          username,  // Send username, not email
           password,
         }),
       });
@@ -57,7 +54,6 @@ const Register: React.FC = () => {
           </IonToolbar>
         </IonHeader>
 
-        {/* Registration Form */}
         <div className="register-form">
           <IonItem>
             <IonLabel position="floating">Username</IonLabel>
@@ -82,7 +78,6 @@ const Register: React.FC = () => {
             Register
           </IonButton>
 
-          {/* Toast Message for errors/success */}
           <IonToast
             isOpen={showToast}
             message={toastMessage}
