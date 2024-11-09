@@ -24,19 +24,23 @@ import '@ionic/react/css/structure.css';
 import '@ionic/react/css/typography.css';
 
 /* Optional CSS utils that can be commented out */
-//import '@ionic/react/css/padding.css';
-//import '@ionic/react/css/float-elements.css';
-//import '@ionic/react/css/text-alignment.css';
-//import '@ionic/react/css/text-transformation.css';
-//import '@ionic/react/css/flex-utils.css';
-//import '@ionic/react/css/display.css';
+// import '@ionic/react/css/padding.css';
+// import '@ionic/react/css/float-elements.css';
+// import '@ionic/react/css/text-alignment.css';
+// import '@ionic/react/css/text-transformation.css';
+// import '@ionic/react/css/flex-utils.css';
+// import '@ionic/react/css/display.css';
 
 /* Ionic Dark Mode */
 import '@ionic/react/css/palettes/dark.system.css';
 
 /* Theme variables */
 import './theme/variables.css';
-import { PCBuilder, SavedBuild, Legal, Register,Login } from "./pages/index";
+import { PCBuilder, SavedBuild, Legal, Register, Login } from "./pages/index";
+
+import AppMenu from './components/AppMenu/AppMenu'; // Importing the AppMenu component
+import AppHeader from './components/AppHeader/AppHeader'; // Importing the AppHeader component
+import AppTabs from './components/AppTabs/AppTabs';
 
 setupIonicReact();
 
@@ -44,8 +48,12 @@ const App: React.FC = () => (
   <ComponentProvider>
     <IonApp>
       <IonReactRouter>
+        {/* Side Menu and App Header */}
+        <AppMenu />
+        <AppHeader />
+
         <IonTabs>
-          <IonRouterOutlet>
+          <IonRouterOutlet id="main-content">
             {/* Define the routes for each page */}
             <Route exact path="/pcbuilder">
               <PCBuilder />
@@ -69,20 +77,7 @@ const App: React.FC = () => (
           </IonRouterOutlet>
 
           {/* Tab bar with navigation links */}
-          <IonTabBar slot="bottom">
-            <IonTabButton tab="PCBuilder" href="/pcbuilder">
-              <IonIcon aria-hidden="true" icon={buildOutline} />
-              <IonLabel>PC Builder</IonLabel>
-            </IonTabButton>
-            <IonTabButton tab="SavedBuild" href="/savedbuild">
-              <IonIcon aria-hidden="true" icon={saveOutline} />
-              <IonLabel>Builds</IonLabel>
-            </IonTabButton>
-            <IonTabButton tab="Legal" href="/legal">
-              <IonIcon aria-hidden="true" icon={documentTextOutline} />
-              <IonLabel>Legal</IonLabel>
-            </IonTabButton>
-          </IonTabBar>
+         <AppTabs/>
         </IonTabs>
       </IonReactRouter>
     </IonApp>

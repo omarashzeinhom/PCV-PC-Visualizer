@@ -52,31 +52,25 @@ const SavedBuild: React.FC = () => {
         {isLoggedIn ? (
           <ExploreContainer name="Your Builds" />
         ) : (
-          <>
-            {/* Use Link with IonItem for navigation */}
-        
-              <Link to="/login">
-                Log in
-              </Link>
-         
-              <Link to="/register">
-              Register
-              </Link>
-      
+          <div>
+            <IonText className="redirect-link">
+              <p>
+              <a href="/login">Login here</a>
+              </p>
+            </IonText>
+            <hr />
+            <IonText className="redirect-link">
+              <p>
+                <a href="/register">Register</a>
+              </p>
+            </IonText>
             <IonText>to save your builds.</IonText>
-          </>
+          </div>
         )}
 
         <IonText>By ANDGOEDU</IonText>
 
-        {/* Toast Message */}
-        <IonToast
-          isOpen={showToast}
-          message="You need to be logged in to save your builds"
-          duration={3000}
-          onDidDismiss={() => setShowToast(false)}
-          position="middle"
-        />
+       
       </IonContent>
     </IonPage>
   );
