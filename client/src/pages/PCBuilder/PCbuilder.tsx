@@ -1,6 +1,7 @@
-import {IonContent, IonHeader, IonPage, IonText, IonTitle, IonToolbar } from '@ionic/react';
+import {IonContent, IonHeader, IonItemDivider, IonPage, IonText, IonTitle, IonToolbar } from '@ionic/react';
 import './PCBuilder.css';
 import  {PCBuilder,ToastInstructions }from '../../components/index';
+import PCPartPickerParser from '../../components/ParsePCPP/ParsePCPP';
 
 const Tab1: React.FC = () => {
   return (
@@ -17,6 +18,8 @@ const Tab1: React.FC = () => {
           </IonToolbar>
         </IonHeader>
         <PCBuilder />
+        <IonItemDivider/>
+        <PCPartPickerParser/>
         <ToastInstructions />
         <IonText>By ANDGOEDU</IonText>
 
