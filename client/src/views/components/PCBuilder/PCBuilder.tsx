@@ -15,13 +15,16 @@ const PCBuilder: React.FC = () => {
   const [imageInputs, setImageInputs] = useState<{ [key: string]: string }>({});
   const [device, setDevice] = useState<'desktop' | 'mobile'>('desktop');
 
-
   useEffect(() => {
     localStorage.setItem('pcComponents', JSON.stringify(components));
   }, [components]);
 
   const handleSelectComponent = (id: string) => {
     setSelectedComponentId(id);
+  };
+  const removeComponent = (id: string) => {
+    setComponents((prev) => prev.filter(component => component.id !== id));
+    setSelectedComponentId(null); // Deselect the component after removal
   };
 
   const debounce = (func: Function, delay: number) => {
@@ -87,51 +90,46 @@ const PCBuilder: React.FC = () => {
     alert('Build Has Been Cleared')
 };
 
-
-
   return (
     <>
-      <div
-        id="screenshot-area"
-        style={{
-          height: '90vh',
-          position: 'relative',
-        }}
-      >
+      <div className="pc-builder__screenshot-area">
         {components.map((component) => (
           <PCComponent
             key={component.id}
-            
             component={{
               ...component,
               width: component.width * (device === 'mobile' ? 0.8 : 1),
               height: component.height * (device === 'mobile' ? 0.8 : 1)
             }}
             onDragEnd={handleDragEnd}
-            onResizeEnd={handleResizeEnd} // Add the resize handler
+            onResizeEnd={handleResizeEnd} 
             isHighlighted={selectedComponentId === component.id}
           />
         ))}
       </div>
-      <IonGrid style={{ marginTop: '20px' }}>
-        <IonCard>
+
+      <IonGrid className="pc-builder__grid">
+        <IonCard className="pc-builder__card">
           <IonCardHeader>
-            <IonText color="warning" style={{ fontSize: '12px' }}>
+            <IonText className="pc-builder__note">
               Note: The PC specs are not checked for compatibility; this design is purely for visual representation using images.
             </IonText>
           </IonCardHeader>
           <IonCardContent>
-            <IonText color="primary" style={{ fontSize: '12px' }}>
+            <IonText className="pc-builder__note">
               Note: Add Side View of Each Component to get the best results
             </IonText>
           </IonCardContent>
-          <IonCardSubtitle>
-            <IonButton onClick={resetCache}>Reset</IonButton>
+          <IonCardSubtitle className="pc-builder__card-subtitle">
+            <IonButton onClick={resetCache} className="pc-builder__button--reset">
+              Reset
+            </IonButton>
           </IonCardSubtitle>
         </IonCard>
+
         {demoComponents.map((component) => (
-          <IonRow key={component.id} style={{ marginBottom: '10px', alignItems: 'center' }}>
-            <IonCol size="auto">
+          <IonRow key={component.id} className="pc-builder__row">
+            <IonCol className="pc-builder__col">
               <IonItem>
                 <IonLabel position="floating"></IonLabel>
                 <IonInput
@@ -140,27 +138,27 @@ const PCBuilder: React.FC = () => {
                   label={component?.type?.toUpperCase()}
                   value={imageInputs[component.id] || ''}
                   onIonChange={(e) => setImageInputs({ ...imageInputs, [component.id]: e.detail.value! })}
-                  style={{ padding: '10px', marginRight: '10px', width: '100%' }}
+                  className="pc-builder__input"
                   placeholder={`Enter image link`}
                 />
               </IonItem>
             </IonCol>
-            <IonCol size="auto">
+            <IonCol className="pc-builder__col">
               <IonButton onClick={() => addComponent(component)}>
                 Add {component.type.toUpperCase()}
               </IonButton>
             </IonCol>
-
           </IonRow>
         ))}
       </IonGrid>
-      
+
+
       <LayerMenu
         components={components}
         onSelectComponent={handleSelectComponent}
         selectedComponentId={selectedComponentId}
+        onRemoveComponent={removeComponent}
       />
-
 
       <IonToast
         isOpen={showToast}

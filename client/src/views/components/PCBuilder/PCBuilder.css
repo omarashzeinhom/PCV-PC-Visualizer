@@ -1,23 +1,62 @@
 
+.pc-builder {
+  /* Main container styles for the PC Builder */
+}
 
-#screenshot-area {
+.pc-builder__screenshot-area {
   background-color: #282828;
   background: radial-gradient(
-      circle,
-      rgba(40, 40, 40, 1) 0%,       /* Center color */
-      rgba(30, 30, 30, 1) 80%       /* Edge color for subtle darkening */
+    circle,
+    rgba(40, 40, 40, 1) 0%,       /* Center color */
+    rgba(30, 30, 30, 1) 80%       /* Edge color for subtle darkening */
   );
-  background-blend-mode: multiply;  /* To keep the effect subtle */
-  width: 100%;                      /* Adjust based on your container */
-  height: 100%;                     /* Adjust based on your container */
+  background-blend-mode: multiply;
+  width: 100%;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-
-  @media (max-width: 768px) { /* Adjust this breakpoint as needed */
-    #screenshot-area {
-      height: 70vh; /* Set height to 70vh on mobile */
-    }
+@media (max-width: 768px) {
+  .pc-builder__screenshot-area {
+    height: 70vh; /* Set height to 70vh on mobile */
   }
+}
+
+.pc-builder__note {
+  font-size: 12px;
+  color: #ffcc00;
+}
+
+.pc-builder__card {
+  margin-top: 20px;
+}
+
+.pc-builder__card-subtitle {
+  padding-top: 20px;
+}
+
+.pc-builder__input {
+  padding: 10px;
+  margin-right: 10px;
+  width: 100%;
+}
+
+.pc-builder__button--reset {
+  background-color: #ffcc00;
+}
+
+.pc-builder__row {
+  margin-bottom: 10px;
+  align-items: center;
+}
+
+.pc-builder__col {
+  size: auto;
+}
+
+.pc-builder__input-wrapper {
+  size: auto;
+}
+
