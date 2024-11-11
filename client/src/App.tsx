@@ -10,70 +10,68 @@ import { IonReactRouter } from '@ionic/react-router';
 
 import { ComponentProvider } from './context/ComponentContext'; // Adjust the path as needed
 
-/* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
-
-/* Basic CSS for apps built with Ionic */
 import '@ionic/react/css/normalize.css';
 import '@ionic/react/css/structure.css';
 import '@ionic/react/css/typography.css';
-
-/* Optional CSS utils that can be commented out */
-// import '@ionic/react/css/padding.css';
-// import '@ionic/react/css/float-elements.css';
-// import '@ionic/react/css/text-alignment.css';
-// import '@ionic/react/css/text-transformation.css';
-// import '@ionic/react/css/flex-utils.css';
-// import '@ionic/react/css/display.css';
-
-/* Ionic Dark Mode */
 import '@ionic/react/css/palettes/dark.system.css';
-
-/* Theme variables */
 import './theme/variables.css';
 import { PCBuilder, SavedBuild, Legal, Register, Login } from "./views/pages";
-import { AppHeader, AppMenu, AppTabs } from './views/components';
+import { AppHeader, AppMenu, AppTabs, LegalModal } from './views/components';
 
 setupIonicReact();
 
-const App: React.FC = () => (
-  <ComponentProvider>
-    <IonApp>
-      <IonReactRouter>
-        {/* Side Menu and App Header */}
-        <AppMenu />
-        <AppHeader />
+const App: React.FC = () => {
+  // Check if the user has accepted the terms in localStorage
+  const hasAcceptedTerms = localStorage.getItem('legalAccepted') === 'true';
 
-        <IonTabs>
-          <IonRouterOutlet id="main-content">
-            {/* Define the routes for each page */}
-            <Route exact path="/pcbuilder">
-              <PCBuilder />
-            </Route>
-            <Route exact path="/savedbuild">
-              <SavedBuild />
-            </Route>
-            <Route exact path="/legal">
-              <Legal />
-            </Route>
-            <Route exact path="/register">
-              <Register />
-            </Route>
-            <Route exact path="/login">
-              <Login />
-            </Route>
-            {/* Redirect default route to /pcbuilder */}
-            <Route exact path="/">
-              <Redirect to="/pcbuilder" />
-            </Route>
-          </IonRouterOutlet>
+  return (
+    <ComponentProvider>
+      <IonApp>
+        <IonReactRouter>
+          <AppMenu />
+          <AppHeader />
 
-          {/* Tab bar with navigation links */}
-          <AppTabs />
-        </IonTabs>
-      </IonReactRouter>
-    </IonApp>
-  </ComponentProvider>
-);
+          <IonTabs>
+            <IonRouterOutlet id="main-content">
+              {/* Only show routes if terms are accepted */}
+              {!hasAcceptedTerms ? (
+                <Redirect to="/legal" />
+              ) : (
+                <>
+                  <Route exact path="/pcbuilder">
+                    <PCBuilder />
+                  </Route>
+                  <Route exact path="/savedbuild">
+                    <SavedBuild />
+                  </Route>
+                  <Route exact path="/register">
+                    <Register />
+                  </Route>
+                  <Route exact path="/login">
+                    <Login />
+                  </Route>
+                </>
+              )}
+
+              <Route exact path="/legal">
+                <Legal />
+              </Route>
+
+              <Route exact path="/">
+                <Redirect to={hasAcceptedTerms ? "/pcbuilder" : "/legal"} />
+              </Route>
+            </IonRouterOutlet>
+
+            <AppTabs />
+          </IonTabs>
+
+          {/* Conditionally render the LegalModal if terms are not accepted */}
+          {!hasAcceptedTerms && <LegalModal />}
+        </IonReactRouter>
+      </IonApp>
+    </ComponentProvider>
+  );
+};
 
 export default App;

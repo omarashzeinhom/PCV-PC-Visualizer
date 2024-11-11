@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCol, IonGrid, IonHeader, IonInput, IonItem, IonLabel, IonRow, IonText, IonToast } from '@ionic/react';
+import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCol, IonGrid, IonHeader, IonInput, IonItem, IonLabel, IonRow, IonText, IonToast, IonAlert } from '@ionic/react';
 import PCComponent from '../PCComponent/PCComponent';
 import './PCBuilder.css';
 import { demoComponents, Component } from "../../../lib/constants/demoproducts";
@@ -15,6 +15,7 @@ const PCBuilder: React.FC = () => {
   const [showToast, setShowToast] = useState(false);
   const [imageInputs, setImageInputs] = useState<{ [key: string]: string }>({});
   const [device, setDevice] = useState<'desktop' | 'mobile'>('desktop');
+  const [showTermsAlert, setShowTermsAlert] = useState(false);
 
   useEffect(() => {
     localStorage.setItem('pcComponents', JSON.stringify(components));
@@ -83,13 +84,28 @@ const PCBuilder: React.FC = () => {
     );
   };
 
- 
   const resetCache = () => {
     localStorage.clear();
     setComponents([]);
     console.log('Cache has been reset.');
     alert('Build Has Been Cleared')
 };
+
+  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>, componentId: string) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const imageUrl = reader.result as string;
+        setImageInputs((prev) => ({ ...prev, [componentId]: imageUrl }));
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleTermsAccept = () => {
+    setShowTermsAlert(false);
+  };
 
   return (
     <>
@@ -118,7 +134,7 @@ const PCBuilder: React.FC = () => {
           </IonCardHeader>
           <IonCardContent>
             <IonText className="pc-builder__note">
-              Note: Add Side View of Each Component to get the best results
+              Note: Add a Side View of Each Component to get the best results
             </IonText>
           </IonCardContent>
           <IonCardSubtitle className="pc-builder__card-subtitle">
@@ -132,17 +148,14 @@ const PCBuilder: React.FC = () => {
           <IonRow key={component.id} className="pc-builder__row">
             <IonCol className="pc-builder__col">
               <IonItem>
-                <IonLabel position="floating"></IonLabel>
-                <IonInput
-                  fill="solid"
-                  labelPlacement="floating"
-                  label={component?.type?.toUpperCase()}
-                  value={imageInputs[component.id] || ''}
-                  onIonChange={(e) => setImageInputs({ ...imageInputs, [component.id]: e.detail.value! })}
-                  className="pc-builder__input"
-                  placeholder={`Enter image link`}
-                />
+              <IonLabel position="floating">Upload Image for {component?.type?.toUpperCase()}</IonLabel>
+                
               </IonItem>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(e) => handleImageUpload(e, component.id)}
+              />
             </IonCol>
             <IonCol className="pc-builder__col">
               <IonButton onClick={() => addComponent(component)}>
@@ -153,7 +166,6 @@ const PCBuilder: React.FC = () => {
         ))}
       </IonGrid>
 
-
       <LayerMenu
         components={components}
         onSelectComponent={handleSelectComponent}
@@ -161,13 +173,26 @@ const PCBuilder: React.FC = () => {
         onRemoveComponent={removeComponent}
       />
 
-<CaseSizeSelector onSizeSelect={(size) => console.log(`Selected Size: ${size}`)} />
-  
-        <IonToast
+      <CaseSizeSelector onSizeSelect={(size) => console.log(`Selected Size: ${size}`)} />
+
+      <IonToast
         isOpen={showToast}
         onDidDismiss={() => setShowToast(false)}
         message="No PC components added! Please add components before exporting."
         duration={2000}
+      />
+
+      <IonAlert
+        isOpen={showTermsAlert}
+        onDidDismiss={() => setShowTermsAlert(false)}
+        header={'Terms of Use'}
+        message={'By uploading an image, you acknowledge that you are responsible for any copyright issues that may arise.'}
+        buttons={[
+          {
+            text: 'Accept',
+            handler: handleTermsAccept
+          }
+        ]}
       />
     </>
   );

@@ -7,6 +7,7 @@ import PCBuilder from "./PCBuilder/PCBuilder";
 import PCComponent from "./PCComponent/PCComponent";
 import ToastInstructions from "./ToastInstructions/ToastInstructions";
 import PCPartPickerParser  from "./ParsePCPP/ParsePCPP"
+import LegalModal from "./LegalModal/LegalModal";
 
 export {
     AppHeader,
@@ -18,4 +19,5 @@ export {
     PCComponent,
     ToastInstructions,
     PCPartPickerParser,
+    LegalModal,
 }
