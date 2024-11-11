@@ -31,8 +31,8 @@ import '@ionic/react/css/palettes/dark.system.css';
 
 /* Theme variables */
 import './theme/variables.css';
-import { PCBuilder, SavedBuild, Legal, Register, Login } from "./pages/index";
-import { AppHeader, AppMenu, AppTabs } from './components';
+import { PCBuilder, SavedBuild, Legal, Register, Login } from "./views/pages";
+import { AppHeader, AppMenu, AppTabs } from './views/components';
 
 setupIonicReact();
 

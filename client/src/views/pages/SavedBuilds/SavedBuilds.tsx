@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { IonContent, IonHeader, IonPage, IonText, IonTitle, IonToolbar, IonToast, IonBackdrop, IonItem, IonLabel } from '@ionic/react';
-import { Link } from 'react-router-dom'; // Import Link from react-router-dom
-import ExploreContainer from '../../components/Explore/ExploreContainer';
 import './SavedBuild.css';
 
 const SavedBuild: React.FC = () => {
@@ -50,7 +48,9 @@ const SavedBuild: React.FC = () => {
 
         {/* Conditionally render content based on login status */}
         {isLoggedIn ? (
-          <ExploreContainer name="Your Builds" />
+          <>
+          Your Builds
+          </>
         ) : (
           <div>
             <IonText className="redirect-link">

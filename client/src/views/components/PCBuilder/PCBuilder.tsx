@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCol, IonGrid, IonHeader, IonInput, IonItem, IonLabel, IonRow, IonText, IonToast } from '@ionic/react';
 import PCComponent from '../PCComponent/PCComponent';
 import './PCBuilder.css';
-import { demoComponents, Component } from "../../constants/demoproducts";
+import { demoComponents, Component } from "../../../lib/constants/demoproducts";
 
 const PCBuilder: React.FC = () => {
   const [components, setComponents] = useState<Component[]>(() => {

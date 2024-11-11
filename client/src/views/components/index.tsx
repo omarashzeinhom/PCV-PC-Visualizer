@@ -6,7 +6,7 @@ import ExploreContainer from "./Explore/ExploreContainer";
 import PCBuilder from "./PCBuilder/PCBuilder";
 import PCComponent from "./PCComponent/PCComponent";
 import ToastInstructions from "./ToastInstructions/ToastInstructions";
-
+import PCPartPickerParser  from "./ParsePCPP/ParsePCPP"
 
 export {
     AppHeader,
@@ -16,5 +16,6 @@ export {
     ExploreContainer,
     PCBuilder,
     PCComponent,
-    ToastInstructions
+    ToastInstructions,
+    PCPartPickerParser,
 }

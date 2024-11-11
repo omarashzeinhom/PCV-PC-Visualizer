@@ -5,4 +5,4 @@ import SavedBuild from "./SavedBuilds/SavedBuilds";
 import Login from "./Auth/Login/Login";
 
 
-export {Register,Legal,PCBuilder,SavedBuild , Login};
+export { Register, Legal, PCBuilder, SavedBuild, Login };

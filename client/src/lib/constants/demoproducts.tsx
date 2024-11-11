@@ -10,8 +10,7 @@ export interface Component {
     specs?: string; // Optional specs for product
 }
 
-// Demo components with initial positions, links, and specs
-
+// Demo components with initial positions, links, and specs, using placeholder images
 export const demoComponents: Component[] = [
     {
         id: '1',
@@ -20,7 +19,7 @@ export const demoComponents: Component[] = [
         y: 50,
         width: 500, // Example width in pixels for the case
         height: 500, // Example height in pixels for the case
-        imageSrc: 'https://dlcdnwebimgs.asus.com/gain/6E502B0B-FDBD-4147-A431-A98ACE2A32EE/w1000/h732',
+        imageSrc: 'https://via.placeholder.com/500x500?text=Case+Image',
         specs: 'Mid Tower Case, ATX Compatible',
         link: 'https://example.com/case' // Add the actual link here
     },
@@ -31,7 +30,7 @@ export const demoComponents: Component[] = [
         y: 130,
         width: 400, // Width in pixels for the motherboard
         height: 300, // Height in pixels for the motherboard
-        imageSrc: 'https://dlcdnwebimgs.asus.com/gain/18EA4132-C4D3-4317-8C5C-49E2E717E19D/w1000/h732',
+        imageSrc: 'https://via.placeholder.com/400x300?text=Motherboard+Image',
         specs: 'ASUS X870 Motherboard, ATX',
         link: 'https://example.com/motherboard' // Add the actual link here
     },
@@ -42,10 +41,9 @@ export const demoComponents: Component[] = [
         y: 70,
         width: 60, // Width in pixels for the CPU
         height: 60, // Height in pixels for the CPU
-        imageSrc: 'https://res.cloudinary.com/dmbzzkneb/image/upload/v1730738410/PCV-Demo-Products/CPU-7900X-removebg-preview_dyojog.png',
+        imageSrc: 'https://via.placeholder.com/60x60?text=CPU+Image',
         specs: 'AMD Ryzen 9 7900X, 12 Cores, 24 Threads',
         link: 'https://example.com/cpu' // Add the actual link here
-
     },
     {
         id: '4',
@@ -54,7 +52,7 @@ export const demoComponents: Component[] = [
         y: 100,
         width: 20, // Width in pixels for the RAM
         height: 70, // Height in pixels for the RAM
-        imageSrc: 'https://res.cloudinary.com/dmbzzkneb/image/upload/f_auto,q_auto/v1/PCV-Demo-Products/detailed_zjnkz5',
+        imageSrc: 'https://via.placeholder.com/20x70?text=RAM+Image',
         specs: '16GB DDR5 RAM',
         link: 'https://example.com/ram' // Add the actual link here
     },
@@ -65,7 +63,7 @@ export const demoComponents: Component[] = [
         y: 200,
         width: 400, // Width in pixels for the GPU
         height: 250, // Height in pixels for the GPU
-        imageSrc: 'https://dlcdnwebimgs.asus.com/gain/c276d87e-1bf3-4428-8c3c-68f29325debe/w800/fwebp',
+        imageSrc: 'https://via.placeholder.com/400x250?text=GPU+Image',
         specs: 'Asus X Noctua NVIDIA GeForce RTX 4080, 16GB GDDR6X',
         link: 'https://example.com/gpu' // Add the actual link here
     },
@@ -76,7 +74,7 @@ export const demoComponents: Component[] = [
         y: 50,
         width: 70, // Width in pixels for the CPU cooler
         height: 70, // Height in pixels for the CPU cooler
-        imageSrc: 'https://a.storyblok.com/f/281110/1500x1500/b7e4b15986/hyper-622-halo-white-01-gallery-03.png/m/960x0/smart',
+        imageSrc: 'https://via.placeholder.com/70x70?text=CPU+Cooler+Image',
         specs: 'Hyper 622 Halo White',
         link: 'https://www.coolermaster.com/en-global/products/hyper-622-halo-white/' // Add the actual link here
     },
@@ -87,7 +85,7 @@ export const demoComponents: Component[] = [
         y: 250,
         width: 150, // Width in pixels for the PSU
         height: 150, // Height in pixels for the PSU
-        imageSrc: 'https://dlcdnwebimgs.asus.com/gain/D97D3CD2-5BAE-4B84-A7AD-C5DDD23AF015/w1000/h732',
+        imageSrc: 'https://via.placeholder.com/150x150?text=PSU+Image',
         specs: '1000W Aura ROG Strix White PSU',
         link: 'https://example.com/psu' // Add the actual link here
     },
@@ -98,7 +96,7 @@ export const demoComponents: Component[] = [
         y: 250,
         width: 150, // Width in pixels for the PSU
         height: 150, // Height in pixels for the PSU
-        imageSrc: 'https://res.cloudinary.com/dmbzzkneb/image/upload/v1730738950/PCV-Demo-Products/UNI-FAN-white-rgbx1-front-removebg-preview_rz4sup.png',
+        imageSrc: 'https://via.placeholder.com/150x150?text=Case+Fan+Image',
         specs: '120mm LIAN LI UNI Fan',
         link: 'https://example.com/psu' // Add the actual link here
     },
