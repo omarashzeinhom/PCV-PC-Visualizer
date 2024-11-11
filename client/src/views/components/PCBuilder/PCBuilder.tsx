@@ -4,6 +4,7 @@ import PCComponent from '../PCComponent/PCComponent';
 import './PCBuilder.css';
 import { demoComponents, Component } from "../../../lib/constants/demoproducts";
 import LayerMenu from '../LayerMenu/LayerMenu';
+import CaseSizeSelector from '../CaseSizes/CaseSizeSelector';
 
 const PCBuilder: React.FC = () => {
   const [components, setComponents] = useState<Component[]>(() => {
@@ -160,7 +161,9 @@ const PCBuilder: React.FC = () => {
         onRemoveComponent={removeComponent}
       />
 
-      <IonToast
+<CaseSizeSelector onSizeSelect={(size) => console.log(`Selected Size: ${size}`)} />
+  
+        <IonToast
         isOpen={showToast}
         onDidDismiss={() => setShowToast(false)}
         message="No PC components added! Please add components before exporting."
