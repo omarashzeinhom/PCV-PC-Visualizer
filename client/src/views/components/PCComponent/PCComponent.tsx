@@ -15,9 +15,10 @@ interface ComponentProps {
     };
     onDragEnd: (id: string, x: number, y: number, width: number, height: number) => void; // Updated signature
     onResizeEnd: (id: string, width: number, height: number) => void;
+    isHighlighted: boolean; //
 }
 
-const PCComponent: React.FC<ComponentProps> = ({ component, onDragEnd, onResizeEnd }) => {
+const PCComponent: React.FC<ComponentProps> = ({ component, onDragEnd, onResizeEnd, isHighlighted }) => {
     const { id, type, x, y, imageSrc, width, height } = component;
     const [isDragging, setIsDragging] = useState(false);
     const [isResizing, setIsResizing] = useState(false);
@@ -189,6 +190,7 @@ const PCComponent: React.FC<ComponentProps> = ({ component, onDragEnd, onResizeE
                             height: '10px',
                             backgroundColor: 'blue',
                             cursor: isMobile ? 'nwse-resize' : 'se-resize',
+                            border: isHighlighted ? '2px solid #ffeb3b' : 'none',
                         }}
                     />
                 )}

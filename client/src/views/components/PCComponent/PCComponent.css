@@ -17,3 +17,9 @@
       height: auto; /* Default styles for desktop */
     }
   }
+
+
+  /* PCComponent.css */
+.pc-component.highlighted {
+  border: 2px solid #f9a825;
+}

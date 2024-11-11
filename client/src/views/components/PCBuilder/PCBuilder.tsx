@@ -3,13 +3,14 @@ import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, Ion
 import PCComponent from '../PCComponent/PCComponent';
 import './PCBuilder.css';
 import { demoComponents, Component } from "../../../lib/constants/demoproducts";
+import LayerMenu from '../LayerMenu/LayerMenu';
 
 const PCBuilder: React.FC = () => {
   const [components, setComponents] = useState<Component[]>(() => {
     const savedComponents = localStorage.getItem('pcComponents');
     return savedComponents ? JSON.parse(savedComponents) : [];
   });
-
+  const [selectedComponentId, setSelectedComponentId] = useState<string | null>(null);
   const [showToast, setShowToast] = useState(false);
   const [imageInputs, setImageInputs] = useState<{ [key: string]: string }>({});
   const [device, setDevice] = useState<'desktop' | 'mobile'>('desktop');
@@ -82,7 +83,10 @@ const PCBuilder: React.FC = () => {
     alert('Build Has Been Cleared')
 };
 
-  
+const handleSelectComponent = (id: string) => {
+  setSelectedComponentId(id);
+};
+
   return (
     <>
       <div
@@ -103,6 +107,7 @@ const PCBuilder: React.FC = () => {
             }}
             onDragEnd={handleDragEnd}
             onResizeEnd={handleResizeEnd} // Add the resize handler
+            isHighlighted={selectedComponentId === component.id}
           />
         ))}
       </div>
@@ -147,6 +152,13 @@ const PCBuilder: React.FC = () => {
           </IonRow>
         ))}
       </IonGrid>
+      
+      <LayerMenu
+        components={components}
+        onSelectComponent={handleSelectComponent}
+        selectedComponentId={selectedComponentId}
+      />
+
 
       <IonToast
         isOpen={showToast}
