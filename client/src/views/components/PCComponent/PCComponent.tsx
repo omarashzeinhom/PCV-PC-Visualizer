@@ -167,6 +167,7 @@ const PCComponent: React.FC<ComponentProps> = ({ component, onDragEnd, onResizeE
                     zIndex: type === 'case' ? 0 : 1,
                     cursor: isDragging ? 'grabbing' : 'grab',
                     border: isOutlineVisible ? '2px dashed teal' : 'none',
+                    outline: isHighlighted ? '2px solid blue' : 'none',
                 }}
                 
                 onMouseDown={handleMouseDown}

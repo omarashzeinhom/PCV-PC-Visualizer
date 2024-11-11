@@ -49,13 +49,13 @@ const SavedBuild: React.FC = () => {
         {/* Conditionally render content based on login status */}
         {isLoggedIn ? (
           <>
-          Your Builds
+            Your Builds
           </>
         ) : (
           <div>
             <IonText className="redirect-link">
               <p>
-              <a href="/login">Login here</a>
+                <a href="/login">Login here</a>
               </p>
             </IonText>
             <hr />
@@ -70,7 +70,7 @@ const SavedBuild: React.FC = () => {
 
         <IonText>By ANDGOEDU</IonText>
 
-       
+
       </IonContent>
     </IonPage>
   );

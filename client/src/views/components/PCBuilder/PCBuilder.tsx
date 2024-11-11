@@ -20,6 +20,10 @@ const PCBuilder: React.FC = () => {
     localStorage.setItem('pcComponents', JSON.stringify(components));
   }, [components]);
 
+  const handleSelectComponent = (id: string) => {
+    setSelectedComponentId(id);
+  };
+
   const debounce = (func: Function, delay: number) => {
     let timeout: NodeJS.Timeout;
     return (...args: any[]) => {
@@ -83,9 +87,7 @@ const PCBuilder: React.FC = () => {
     alert('Build Has Been Cleared')
 };
 
-const handleSelectComponent = (id: string) => {
-  setSelectedComponentId(id);
-};
+
 
   return (
     <>
